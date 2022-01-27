@@ -1,0 +1,11 @@
+**.bolt
+**.log
+*.lock
+.vscode/*
+.DS_Store
+**.DS_Store
+bugbounty/*
+groups/**
+input/**
+scans/*
+**.resume.cfg

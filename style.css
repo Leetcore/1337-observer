@@ -1,0 +1,108 @@
+html {
+    min-height: 100%;
+    box-shadow: inset 0 0 100px #000;
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #0C1C0E;
+    color: #55A559;
+    font-family: monospace;
+    line-height: 130%;
+}
+h1, h2, h3, body, p, img {
+    box-sizing: border-box;
+    animation-name: flick;
+    animation-duration: 1337s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+h1, h2 {
+    margin-bottom: 10px;
+    color: #6bca48;
+    text-shadow: 2px 2px 2px #428838;
+    line-height: 100%;
+}
+h2::after {
+    content: "_";
+}
+a, a:link, a:visited {
+    color: #49902f;
+}
+a:hover {
+    background-color: #18402d;
+    color: #49902f;
+    cursor: pointer;
+    text-decoration: none;
+}
+abbr {
+    border-bottom: 1px dashed #00FF5F;
+    cursor: help;
+}
+ul {
+    list-style-type: square;
+}
+img {
+    max-width: 100%;
+    max-height: 250px;
+}
+hr {
+    background-color: #333;
+    border: none;
+    height: 2px;
+    margin: 5px 2px;
+}   
+.comics img {
+    max-height: 100%;
+}
+table {
+    font-size: 90%;
+    border-collapse: collapse;
+}
+td {
+    vertical-align: top;
+    border: 1px solid #333;
+    padding: 3px;
+}
+iframe {
+    width: 100%;
+    box-shadow: 5px 5px 0px #333;
+}
+.center {
+    text-align: center;
+    margin: 10px auto;
+}
+.container img {
+    max-width: 32%;
+}
+#main {
+    max-width: 640px;
+    margin: 0px auto;
+    padding: 10px;
+}
+#tweets {
+    font-size: 90%;
+}
+.column {
+    column-count: 2;
+}
+.title li {
+    font-size: 90%;
+}
+pre, code {
+    line-height: 120%;
+    white-space: pre-wrap;
+    font-size: 95%;
+}
+@media (max-width: 800px) {
+    .column {
+        column-count: 1;
+    }
+}
+@keyframes flick {
+    0% {}
+    50% {
+        filter: hue-rotate(45deg);
+    }
+    100% {}
+}

@@ -1,0 +1,9 @@
+theme: jekyll-theme-hacker
+plugins:
+  - jekyll-titles-from-headings
+  - jekyll-feed
+permalink: :title:output_ext
+titles_from_headings:
+  enabled:     true
+  strip_title: false
+  collections: false

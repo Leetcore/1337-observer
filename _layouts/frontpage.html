@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>🌍🏄🏻‍♂️👁 1337observer</title>
+	<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/feed.xml" />
+	<link rel="stylesheet" type="text/css" href="/style.css" />
+	<!--
+
+
+	Aus großer Macht folgt große Verantwortung! 
+
+
+	-->
+</head>
+
+<body>
+	<div id="main">
+		<pre>
+█▀ ██▀▄▄ █▀▄▄ █▄▄▄ ████▀▀███▀▀███▀▀██▀▀██▀██▀██▀██▀▀██▀██
+██ ████▄▀███▄▀███ ████ ██ █ ▀▀▄█ ▀██ ▀▀█ █ █ ██ █ ▀▀█ █ █
+██ ██▄▀▀ █▄▀▀ ██▌▐██▀█▄▀▀▄█ ▀▀▄█▀▀▄█ ▀▀█ ▄▀█▄▀▄██ ▀▀█ ▄▀█
+		</pre>
+		<h1 style="text-align: center">Internet-Safari 🦎🦉🦒</h1>
+		<p>
+			Herzlich Willkommen im Internet. Die wilde Fahrt beginnt gleich!
+		</p>
+		<p>
+			Wir suchen im Web nach interessanten, vergessen Webseiten, Subdomains und Servern.
+			In diesem Repo sind einige Scripte, Anleitungen und Wortlisten für eine
+			umfangreiche Entdeckertour!
+		</p>
+
+		<h2>RSS</h2>
+		<ul>
+			{% for post in site.posts limit:3 %}
+			<li>
+				<a href="{{ post.url }}">{{ post.title }}</a>
+			</li>
+			{% endfor %}
+		</ul>
+
+		<h2>anleitungen</h2>
+		<ul>
+			<li><a href="https://github.com/Leetcore/1337-observer/blob/main/README.md">ReadMe</a></li>
+		</ul>
+
+	</div>
+</body>
+
+</html>
