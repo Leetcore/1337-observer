@@ -1,5 +1,6 @@
 import os
 import argparse
+from urllib.parse import urlparse
 
 
 def main(input_file, folder, vuln, hard, skip):
@@ -81,16 +82,20 @@ def start_wizard(domain, folder, vuln, hard, skip):
     if vuln.lower() == "yes":
         if os.path.exists(f'{folder}/{domain}/cve.txt') == False:
             # scan for more vulns
+            print("\nTesting: Services")
+            with open(f'{folder}/{domain}/active.txt', 'r') as nmap_domains:
+                with open(f'{folder}/{domain}/active_nmap.txt', 'w') as out:
+                    while domains := nmap_domains.readline().strip():
+                        out.write((urlparse(domains).netloc) + '\n')
             more_tags = ""
             if hard.lower() == "yes":
-                more_tags = ",sqli,rce"
-    
-                print("\nTesting: Services")
+                more_tags = ",sqli,rce"          
+
             os.system(
                 "nmap -sV -Pn --top-ports 50 --script vulners --script-args mincvss=8 --open -iL '"
                 + folder
                 + domain
-                + "/active.txt' -oN '"
+                + "/active_nmap.txt' -oN '"
                 + folder
                 + domain
                 + "/nmap.txt'"
