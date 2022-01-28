@@ -42,7 +42,7 @@ def start_wizard(domain, folder, vuln, hard, skip):
 
     if os.path.exists(f'{folder}/{domain}/subs.txt') == False:
         os.system(f'echo "{domain}" > "{folder}/{domain}/subs.txt"')
-        os.system(f'subfinder -d "{domain}" -o "{folder}/{domain}/subs.txt"')
+        os.system(f'~/go/bin/subfinder -d "{domain}" -o "{folder}/{domain}/subs.txt"')
 
     if os.path.exists(f'{folder}/{domain}/active_banner.txt') == False:
         print("\nCheck if websites are up!")
