@@ -96,30 +96,15 @@ def start_wizard(domain, folder, vuln, hard, skip):
             
             with open(f'{folder}/{domain}/active.txt', 'r') as nmap_domains:
                 with open(f'{folder}/{domain}/active_nmap.txt', 'w') as out:
-                    while domains := nmap_domains.readline().strip():
+                    for domains in nmap_domains.readlines():
                         out.write((urlparse(domains).netloc) + '\n')
-                        
-            # remove dublicates from http/https results for nmap
-            os.system(
-            "awk -i inplace -F':' '{print $1}' '"
-            + folder
-            + domain
-            + "/active_nmap.txt'"
-            )
-            os.system(
-            "awk -i inplace '!seen[$0]++' '"
-            + folder
-            + domain
-            + "/active_nmap.txt'"
-            )
-            
 
             more_tags = ""
             if hard.lower() == "yes":
                 more_tags = ",sqli,rce"          
 
             os.system(
-                "nmap -sV -Pn --top-ports 50 --script vulners --script-args mincvss=8 --open -iL '"
+                "nmap -sV -Pn --top-ports 50 --script vulners --script-args mincvss=9 --open -iL '"
                 + folder
                 + domain
                 + "/active_nmap.txt' -oN '"
