@@ -6,6 +6,7 @@
 **.DS_Store
 bugbounty/*
 groups/**
-input/**
+input/*/*
 scans/*/
+screenshot/*.png
 **.resume.cfg
