@@ -19,7 +19,7 @@ def main(input_file, output_file):
                 out.write(result_string)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Flatting a the JSON-list to TXT.")
+    parser = argparse.ArgumentParser(description="Flatting a JSON-list to TXT.")
     parser.add_argument("-i", type=str, default="no", help="Path to input file")
     parser.add_argument("-o", type=str, default="bblist.txt", help="Output of BB list.")
     args = parser.parse_args()
