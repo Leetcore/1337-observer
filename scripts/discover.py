@@ -1,5 +1,8 @@
 import os
 import argparse
+from urllib.parse import urlparse
+import pyfiglet
+from colorama import Fore, Style
 
 
 def main(input_file, folder, vuln, hard, skip):
@@ -22,14 +25,18 @@ def start_wizard(domain, folder, vuln, hard, skip):
     domain = domain.strip()
     folder = folder.strip()
 
-    print(f"\nStart with: {domain}")
+    #Add a pretty banner
+    ascii_banner = pyfiglet.figlet_format("1337-observer")
+    print(ascii_banner)
+
+    print(f"{Fore.GREEN}[+]{Style.RESET_ALL} Start with {domain}")
     domain_parts = domain.split("/")
     if len(domain_parts) >= 2:
         domain = domain_parts[2].replace("www.", "")
 
     if os.path.exists(f"{folder}/{domain}") == True and skip == "yes":
         print(
-            "Folder in "
+            f"{Fore.RED}[-]{Style.RESET_ALL} Folder in "
             + folder
             + " already exist, skip subdomain recon for "
             + domain
@@ -42,10 +49,12 @@ def start_wizard(domain, folder, vuln, hard, skip):
 
     if os.path.exists(f'{folder}/{domain}/subs.txt') == False:
         os.system(f'echo "{domain}" > "{folder}/{domain}/subs.txt"')
-        os.system(f'~/go/bin/subfinder -d "{domain}" -o "{folder}/{domain}/subs.txt"')
+        print(f"{Fore.GREEN}[+]{Style.RESET_ALL} Scanning {domain} with subfinder ...")
+        print(f"{Fore.YELLOW}[*]{Style.RESET_ALL} Domains found:")
+        os.system(f'~/go/bin/subfinder -d "{domain}" -o "{folder}/{domain}/subs.txt" -silent')
 
     if os.path.exists(f'{folder}/{domain}/active_banner.txt') == False:
-        print("\nCheck if websites are up!")
+        print(f"\n{Fore.GREEN}[+]{Style.RESET_ALL} Check if websites are up with httpx!")
         os.system(
             "~/go/bin/httpx -nc -fhr -title -tech-detect -server -status-code -p 80,8080,8081,8443,443,4434,4433,8443,5000,1337 -mc 200 -retries 0 -timeout 3 -maxhr 1 -l '"
             + folder
@@ -81,34 +90,42 @@ def start_wizard(domain, folder, vuln, hard, skip):
     if vuln.lower() == "yes":
         if os.path.exists(f'{folder}/{domain}/cve.txt') == False:
             # scan for more vulns
+
+            # remove http schema from URL for nmap
+            print(f"\n{Fore.GREEN}[+]{Style.RESET_ALL} Testing: Services with nmap")
+            
+            with open(f'{folder}/{domain}/active.txt', 'r') as nmap_domains:
+                with open(f'{folder}/{domain}/active_nmap.txt', 'w') as out:
+                    for domains in nmap_domains.readlines():
+                        out.write((urlparse(domains).netloc) + '\n')
+
             more_tags = ""
             if hard.lower() == "yes":
-                more_tags = ",sqli,rce"
-    
-                print("\nTesting: Services")
+                more_tags = ",sqli,rce"          
+
             os.system(
-                "nmap -sV -Pn --top-ports 50 --script vulners --script-args mincvss=8 --open -iL '"
+                "nmap -sV -Pn --top-ports 50 --script vulners --script-args mincvss=9 --open -iL '"
                 + folder
                 + domain
-                + "/active.txt' -oN '"
+                + "/active_nmap.txt' -oN '"
                 + folder
                 + domain
                 + "/nmap.txt'"
             )
 
-            print("\nTesting: Security")
+            print(f"\n{Fore.GREEN}[+]{Style.RESET_ALL} Testing: Security with nuclei")
             os.system(
                 "~/go/bin/nuclei -l '"
                 + folder
                 + domain
-                + "/active.txt' -tags cve" + more_tags + " -retries 0 -mhe 1 -s critical -o '"
+                + "/active.txt' -tags cve" + more_tags + " -retries 0 -mhe 1 -s critical -stats -o '"
                 + folder
                 + domain
                 + "/cve.txt'"
             )
 
         if os.path.exists(f'{folder}/{domain}/org.txt') == False and os.path.exists(f'{folder}/{domain}/cve.txt') == True:
-            print("\nCheck org/network information!")
+            print(f"\n{Fore.GREEN}[+]{Style.RESET_ALL} Check org/network information!")
             os.system(
                 "python3 scripts/add-orginfo.py -i '"
                 + folder
