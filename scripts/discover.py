@@ -82,24 +82,29 @@ def start_wizard(domain, folder, vuln, hard, skip):
     if vuln.lower() == "yes":
         if os.path.exists(f'{folder}/{domain}/cve.txt') == False:
             # scan for more vulns
+
+            # remove http schema from URL for nmap
             print("\nTesting: Services")
+            
             with open(f'{folder}/{domain}/active.txt', 'r') as nmap_domains:
                 with open(f'{folder}/{domain}/active_nmap.txt', 'w') as out:
                     while domains := nmap_domains.readline().strip():
                         out.write((urlparse(domains).netloc) + '\n')
-
+                        
             # remove dublicates from http/https results for nmap
             os.system(
             "awk -i inplace -F':' '{print $1}' '"
             + folder
             + domain
-            + "/active_nmap.txt' && '"
-            + "awk -i inplace '!seen[$0]++' '"
+            + "/active_nmap.txt'"
+            )
+            os.system(
+            "awk -i inplace '!seen[$0]++' '"
             + folder
             + domain
             + "/active_nmap.txt'"
             )
-            #os.system(f"awk -i inplace -F':' '{{print $1}}' {folder}/{domain}/active_nmap.txt  && awk -i inplace '!seen[$0]++' {folder}/{domain}/active_nmap.txt")
+            
 
             more_tags = ""
             if hard.lower() == "yes":
