@@ -11,8 +11,8 @@ def main(input_file, output_file):
         content = myfile.readlines()
         for line in content:
             url = get_website(line)
-            print(url)
-            if len(url) > 0:
+            if url :
+                print(url)
                 with open(output_file, "a") as out:
                     out.write(url + "\n")
 
@@ -47,6 +47,7 @@ def get_website(url_path):
         return url
     except Exception as e:
         print(e)
+        return False
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

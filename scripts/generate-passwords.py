@@ -120,31 +120,27 @@ def main():
 
                 if special_char:
                     for spec_char in guess_special_char:
-                        addToList(keyword + keyword_2 + number + spec_char)
-                        addToList(keyword_2 + keyword + number + spec_char)
+                        addToList(keyword + keyword_2 + spec_char)
+                        addToList(keyword_2 + keyword + spec_char)
                         addToList(
                             startCapitalLetter(keyword)
                             + startCapitalLetter(keyword_2)
-                            + number
                             + spec_char
                         )
                         addToList(
                             startCapitalLetter(keyword_2)
                             + startCapitalLetter(keyword)
-                            + number
                             + spec_char
                         )
 
-                        addToList(keyword + number + keyword_2)
-                        addToList(keyword_2 + number + keyword)
+                        addToList(keyword + keyword_2)
+                        addToList(keyword_2 + keyword)
                         addToList(
                             startCapitalLetter(keyword)
-                            + number
                             + startCapitalLetter(keyword_2)
                         )
                         addToList(
                             startCapitalLetter(keyword_2)
-                            + number
                             + startCapitalLetter(keyword)
                         )
                 else:

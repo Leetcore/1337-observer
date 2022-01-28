@@ -7,5 +7,5 @@
 bugbounty/*
 groups/**
 input/**
-scans/*
+scans/*/
 **.resume.cfg
