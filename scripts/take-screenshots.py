@@ -45,7 +45,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-o",
         type=str,
-        default="./screenshot_log.txt",
+        default="./screenshots/screenshot_log.txt",
         help="Path to screenshot log file",
     )
     parser.add_argument(
