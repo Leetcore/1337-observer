@@ -2,6 +2,7 @@ import argparse
 import asyncio
 from pyppeteer import launch
 from os.path import exists
+from websockets import client
 
 
 async def main():
