@@ -3,15 +3,30 @@ import asyncio
 from pyppeteer import launch
 from os.path import exists
 from websockets import client
+from validator_collection import validators, checkers
+from colorama import Fore, Style
+import pyfiglet
 
 
 async def main():
+    # add pretty ascii banner
+    ascii_banner = pyfiglet.figlet_format("Screenshotter")
+    print(ascii_banner)
+    
+    print(f"{Fore.YELLOW}[*]{Style.RESET_ALL} Grabbing Screeenshots from active URLs")
     with open(input_file, "r") as myfile:
         content = myfile.readlines()
         browser = await launch({"ignoreHTTPSErrors": True})
         page = await browser.newPage()
         counter = 0
         for url in content:
+            
+            #Check for valid URLs
+            isValidUrl = checkers.is_url(url)
+            if not isValidUrl:
+                print(f"{Fore.RED}[-]{Style.RESET_ALL} {url.strip()} is not a valid URL and will be skipped")
+                continue
+
             counter = counter + 1
             if exists(output_folder + str(counter) + ".png"):
                 continue
@@ -33,7 +48,7 @@ async def main():
             except Exception as e:
                 pass
             await page.screenshot({"path": output_folder + str(counter) + ".png"})
-            print(f"{url.strip()}, {str(counter)}.png")
+            print(f"{Fore.GREEN}[+]{Style.RESET_ALL} {url.strip()}, {str(counter)}.png")
             with open(output_file, "a") as my_file:
                 my_file.write(f"{url.strip()}, {str(counter)}.png\n")
         await browser.close()
