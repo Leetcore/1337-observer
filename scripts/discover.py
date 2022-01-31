@@ -98,7 +98,7 @@ def start_wizard(domain, folder, vuln, hard, skip):
                 with open(f'{folder}/{domain}/active_nmap.txt', 'w') as out:
                     for domains in nmap_domains.readlines():
                         out.write((urlparse(domains).netloc) + '\n')
-            
+
             more_tags = ""
             if hard.lower() == "yes":
                 more_tags = ",sqli,rce"          
