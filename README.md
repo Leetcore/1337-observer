@@ -1,5 +1,7 @@
 ## Willkommen bei 1337observer
-Hier werden einfache Tools und Listen programmiert, um das Internet zu scannen.
+Ein Repo voller automatisierte Scripte zum Suchen nach kritischen
+Schwachstellen in Webanwendungen. Hilfreich für Bug Bounties, 
+Capture The Flags und zum Testen der eigenen Infrastruktur.
 
 * Unter /scripts liegt `discover.py`.
 * Unter /scans werden standardmäßig die Scans abgelegt.

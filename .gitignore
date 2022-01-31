@@ -9,4 +9,4 @@ groups/**
 input/*/*
 scans/*/
 screenshot/*.png
-**.resume.cfg
+**/resume.cfg

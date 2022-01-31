@@ -20,34 +20,95 @@
 <body>
 	<div id="main">
 		<pre>
-█▀ ██▀▄▄ █▀▄▄ █▄▄▄ ████▀▀███▀▀███▀▀██▀▀██▀██▀██▀██▀▀██▀██
-██ ████▄▀███▄▀███ ████ ██ █ ▀▀▄█ ▀██ ▀▀█ █ █ ██ █ ▀▀█ █ █
-██ ██▄▀▀ █▄▀▀ ██▌▐██▀█▄▀▀▄█ ▀▀▄█▀▀▄█ ▀▀█ ▄▀█▄▀▄██ ▀▀█ ▄▀█
+  __ ____ ____ ______    _                                  
+ /_ |___ \___ \____  |  | |                                 
+  | | __) |__) |  / /__ | |__  ___  ___ _ ____   _____ _ __ 
+  | ||__ &lt;|__ &lt;  / / _ \| '_ \/ __|/ _ \ '__\ \ / / _ \ '__|
+  | |___) |__) |/ / (_) | |_) \__ \  __/ |   \ V /  __/ |   
+  |_|____/____//_/ \___/|_.__/|___/\___|_|    \_/ \___|_|   
 		</pre>
-		<h1 style="text-align: center">Internet-Safari 🦎🦉🦒</h1>
+		<h1 style="text-align: center">🌍🏄🏻‍♂️👁 1337observer</h1>
 		<p>
 			Herzlich Willkommen im Internet. Die wilde Fahrt beginnt gleich!
 		</p>
 		<p>
-			Wir suchen im Web nach interessanten, vergessen Webseiten, Subdomains und Servern.
-			In diesem Repo sind einige Scripte, Anleitungen und Wortlisten für eine
-			umfangreiche Entdeckertour!
+			Ein Repo voller automatisierte Scripte zum Suchen nach kritischen
+			Schwachstellen in Webanwendungen. Hilfreich für Bug Bounties, 
+			Capture The Flags und zum Testen der eigenen Infrastruktur.
 		</p>
 
-		<h2>RSS</h2>
+		<!--
+			<h2>RSS</h2>
+			<ul>
+				{% for post in site.posts limit:3 %}
+				<li>
+					<a href="{{ post.url }}">{{ post.title }}</a>
+				</li>
+				{% endfor %}
+			</ul>
+		-->
+
+		<h2>Scripte</h2>
 		<ul>
-			{% for post in site.posts limit:3 %}
 			<li>
-				<a href="{{ post.url }}">{{ post.title }}</a>
+				scripts/discover.py: 
+				<a href="https://github.com/Leetcore/1337-observer">README</a>
 			</li>
-			{% endfor %}
 		</ul>
-
-		<h2>anleitungen</h2>
+		<h2>Fuzzing Listen</h2>
 		<ul>
-			<li><a href="https://github.com/Leetcore/1337-observer/blob/main/README.md">ReadMe</a></li>
+			<li>
+				<a href="/lists/dns.txt">dns.txt</a>
+			</li>
+			<li>
+				<a href="/lists/forced-browsing.txt">forced-browsing.txt</a>
+			</li>
+			<li>
+				<a href="/lists/usernames.txt">usernames.txt</a>
+			</li>
+			<li>
+				<a href="/lists/passwords.txt">passwords.txt</a>
+			</li>
+			<li>
+				<a href="/lists/php-filenames.txt">php-filenames.txt</a>
+			</li>
+			<li>
+				<a href="/lists/http-param.txt">http-param.txt</a>
+			</li>
+			<li>
+				<a href="/lists/leaky-urls.txt">leaky-urls.txt</a>
+			</li>
+			<li>
+				<a href="/lists/interesting-names.txt">interesting-names.txt</a>
+			</li>
 		</ul>
 
+		<h2>Spickzettel</h2>
+		<ul>
+			<li><a href="/howtos/encoding.html">Encoding</a></li>
+			<li><a href="/howtos/reverse-shell.html">Reverse Shell</a></li>
+			<li><a href="/howtos/nc.html">Netcat</a></li>
+			<li><a href="/howtos/msfvenom.html">Venom (Windows Meterpreter</a></li>
+			<li><a href="/howtos/wpscan.html">WPscan</a></li>
+			<li><a href="/howtos/hashcat.html">Hashcat</a></li>
+			<li><a href="/howtos/johntheripper.html">John the ripper</a></li>
+		</ul>
+
+		<h2>Anleitungen</h2>
+		<ul>
+			<li>🔥 <a href="/howtos/log4j.html">Log4J</a></li>
+			<li><a href="/howtos/xxe.html">XXE</a></li>
+		</ul>
+
+		<h2>Bug Bounties</h2>
+		<ul>
+			<li>
+				<a href="/input/bblist.txt">Bug Bounties</a>, 
+				<a href="https://github.com/projectdiscovery/public-bugbounty-programs">
+					Github Repo
+				</a>
+			</li>
+		</ul>
 	</div>
 </body>
 
