@@ -2,12 +2,15 @@
 
 echo "Install golang"
 sudo apt install python3 python3-pip golang nmap curl
+
 echo "Install Python deps"
 pip3 install -r requirements.txt
+
 echo "Install project discovery"
 go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
+
 echo "nmap vulners script"
 if [[ -f "/usr/share/nmap/scripts/" ]]
 then

@@ -1,7 +1,6 @@
 import os
 import argparse
 from urllib.parse import urlparse
-import pyfiglet
 from colorama import Fore, Style
 
 
@@ -25,9 +24,15 @@ def start_wizard(domain, folder, vuln, hard, skip):
     domain = domain.strip()
     folder = folder.strip()
 
-    #Add a pretty banner
-    ascii_banner = pyfiglet.figlet_format("1337-observer")
-    print(ascii_banner)
+    # Add a pretty banner
+    print("""
+  __ ____ ____ ______    _                                  
+ /_ |___ \\___ \\____  |  | |                                 
+  | | __) |__) |  / /__ | |__  ___  ___ _ ____   _____ _ __ 
+  | ||__ <|__ <  / / _ \\| '_ \\/ __|/ _ \\ '__\\ \\ / / _ \\ '__|
+  | |___) |__) |/ / (_) | |_) \\__ \\  __/ |   \\ V /  __/ |   
+  |_|____/____//_/ \\___/|_.__/|___/\\___|_|    \\_/ \\___|_|   
+    """)
 
     print(f"{Fore.GREEN}[+]{Style.RESET_ALL} Start with {domain}")
     domain_parts = domain.split("/")
@@ -56,7 +61,7 @@ def start_wizard(domain, folder, vuln, hard, skip):
     if os.path.exists(f'{folder}/{domain}/active_banner.txt') == False:
         print(f"\n{Fore.GREEN}[+]{Style.RESET_ALL} Check if websites are up with httpx!")
         os.system(
-            "~/go/bin/httpx -nc -fhr -title -tech-detect -server -status-code -p 80,8080,8081,8443,443,4434,4433,8443,5000,1337 -mc 200 -retries 0 -timeout 3 -maxhr 1 -l '"
+            "~/go/bin/httpx -nc -fhr -title -tech-detect -server -status-code -p 80,8080,8081,8443,443,4434,4433,8443,5000,1337 -mc 200 -retries 0 -t 5 -timeout 3 -maxhr 1 -l '"
             + folder
             + domain
             + "/subs.txt' -o '"
@@ -77,6 +82,7 @@ def start_wizard(domain, folder, vuln, hard, skip):
         )
 
     if os.path.exists(f'{folder}/{domain}/crawled.txt') == False:
+        print(f"\n{Fore.GREEN}[+]{Style.RESET_ALL} Start crawling websites")
         os.system(
             "python3 scripts/crawler.py -i '"
             + folder
@@ -95,23 +101,23 @@ def start_wizard(domain, folder, vuln, hard, skip):
             print(f"\n{Fore.GREEN}[+]{Style.RESET_ALL} Testing: Services with nmap")
             
             with open(f'{folder}/{domain}/active.txt', 'r') as nmap_domains:
-                with open(f'{folder}/{domain}/active_nmap.txt', 'w') as out:
+                with open(f'{folder}/{domain}/active_hosts.txt', 'w') as out:
                     for domains in nmap_domains.readlines():
                         out.write((urlparse(domains).netloc) + '\n')
-
-            more_tags = ""
-            if hard.lower() == "yes":
-                more_tags = ",sqli,rce"          
-
+         
             os.system(
                 "nmap -sV -Pn --top-ports 50 --script vulners --script-args mincvss=9 --open -iL '"
                 + folder
                 + domain
-                + "/active_nmap.txt' -oN '"
+                + "/active_hosts.txt' -oN '"
                 + folder
                 + domain
                 + "/nmap.txt'"
             )
+
+            more_tags = ""
+            if hard.lower() == "yes":
+                more_tags = ",sqli,rce"
 
             print(f"\n{Fore.GREEN}[+]{Style.RESET_ALL} Testing: Security with nuclei")
             os.system(
