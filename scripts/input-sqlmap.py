@@ -1,6 +1,7 @@
 import os
 import argparse
 import re
+from shlex import quote
 
 def main(input_file):
     # use input file
@@ -10,6 +11,7 @@ def main(input_file):
             start_wizard(line.strip())
 
 def start_wizard(url):
+    url = quote(url.strip())
     print("Start with: " + url)
     match = re.search(r"\d+$", url)
     if "?" in url or "=" in url or match is not None:

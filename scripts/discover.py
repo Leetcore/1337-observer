@@ -2,7 +2,7 @@ import os
 import argparse
 from urllib.parse import urlparse
 from colorama import Fore, Style
-
+from shlex import quote
 
 def main(input_file, folder, vuln, hard, skip):
     try:
@@ -21,8 +21,8 @@ def main(input_file, folder, vuln, hard, skip):
         print(e)
 
 def start_wizard(domain, folder, vuln, hard, skip):
-    domain = domain.strip()
-    folder = folder.strip()
+    domain = quote(domain.strip())
+    folder = quote(folder.strip())
 
     # Add a pretty banner
     print("""
@@ -50,7 +50,7 @@ def start_wizard(domain, folder, vuln, hard, skip):
         return
 
     if os.path.exists(f"{folder}/{domain}") == False:
-        os.system(f'mkdir "{folder}/{domain}"')
+        os.system(f"mkdir {folder}/{domain}")
 
     if os.path.exists(f'{folder}/{domain}/subs.txt') == False:
         os.system(f'echo "{domain}" > "{folder}/{domain}/subs.txt"')
@@ -106,7 +106,7 @@ def start_wizard(domain, folder, vuln, hard, skip):
                         out.write((urlparse(domains).netloc) + '\n')
          
             os.system(
-                "nmap -sV -Pn --top-ports 50 --script vulners --script-args mincvss=9 --open -iL '"
+                "nmap -sV -Pn --top-ports 100 --script vulners --script-args mincvss=9 --open -iL '"
                 + folder
                 + domain
                 + "/active_hosts.txt' -oN '"

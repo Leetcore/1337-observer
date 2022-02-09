@@ -2,7 +2,7 @@ import os
 import subprocess
 import argparse
 import re
-
+from shlex import quote
 
 def main(input_file, output_file):
     if os.path.exists(input_file):
@@ -10,6 +10,8 @@ def main(input_file, output_file):
             content = myfile.readlines()
             for line in content:
                 output_string = []
+                line = quote(line.strip())
+
                 try:
                     if re.search("\[CVE.*?\]", line):
                         cve = re.search("\[CVE.*?\]", line).group()
