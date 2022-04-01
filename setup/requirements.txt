@@ -1,5 +1,0 @@
-pyppeteer==0.2.6
-asyncio==3.4.3
-beautifulsoup4==4.9.3
-colorama==0.4.4
-mysql-connector-python==8.0.27
