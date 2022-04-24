@@ -28,20 +28,26 @@
 		</pre>
 		<h1 style="text-align: center">🌍🏄🏻‍♂️👁 the_1337_file.txt</h1>
 		<p>
-			Diese eine Datei, die jeder auf seinem Rechner hat und direkt
-			weitergeben kann. Eine Anleitung und Cheatsheet zum Pentesting, 
-			Hacking und Tricks für die Shell.
+			Diese <b>eine</b> Datei, die jeder auf seinem Rechner hat und direkt
+			weitergeben kann. Eine Sammlung aus Einzeilern, Anleitungen und
+			Cheatsheets zum Pentesting, Hacking mit Tricks für die Shell.
+		</p>
+		<p>
+			Mit der Suchfunktion deines Lieblingseditors kannst du darin navigieren:
+			Wenn du mit `less` liest, dann tippe `-i` vor einer Suche mit `/nc`.
 		</p>
 
-		<h2>Die Datei</h2>
+		<a class="download" href="/1337_file.txt">DOWNLOAD FILE</a>
 		<p>
-			Die Datei selbst wird vorallem mit der Suchfunktion deines 
-			Lieblingseditors benutzt.
+			Direkter Download in Bash:<br/>
+			wget https://raw.githubusercontent.com/Leetcore/1337-observer/main/1337_file.txt
 		</p>
-		<h2>Download</h2>
-		<a href="/the_1337_file.txt">DOWNLOAD FILE</a>
-		
-		<h2>Fuzzing Listen</h2>
+
+		<h3>Fuzzing Listen</h3>
+		<p>
+			Die meisten Fuzzing-Listen sind relativ groß. Hier ist eine Liste, 
+			die sich auf Wörter aus der Entwicklerwelt beschränkt.
+		</p>
 		<ul>
 			<li>
 				<a href="/lists/dns.txt">dns.txt</a>
@@ -69,8 +75,16 @@
 			</li>
 		</ul>
 
-		Änderungen und Erweiterungen direkt in 
-		<a href="https://github.com/Leetcore/1337-observer">Github</a>.
+		<3>Examples</h3>
+		<p>
+			gobuster vhost -u http://host/ -w /lists/dns.txt
+		</p>
+
+		<p>
+			Erweiterungen und Änderungsvorschläge sind erwünscht und können über 
+			<a href="https://github.com/Leetcore/1337-observer">Github</a> 
+			eingereicht werden.
+		</p>
 	</div>
 </body>
 

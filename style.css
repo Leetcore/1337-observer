@@ -94,6 +94,13 @@ pre, code {
     white-space: pre-wrap;
     font-size: 95%;
 }
+.download {
+    display: block;
+    text-align: center;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #18402d;
+}
 @media (max-width: 800px) {
     .column {
         column-count: 1;
