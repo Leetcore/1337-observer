@@ -7,7 +7,7 @@
 Version 0.9
 Changes are welcome!
 GitHub: https://github.com/Leetcore/1337-observer
-This file is my sheetcheat for pentesting and CTFs.
+This file is my cheatsheet for pentesting and CTFs.
 
 If you read with `less` type `-i` (ignore case) before searching.
 Type `/nc` to search.
