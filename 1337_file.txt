@@ -144,6 +144,7 @@ Proc:
 enum4linux host
 searchsploit samba
 smbmap -H 10.10.10.3
+medusa -h 10.129.42.254 -u bob -P /usr/share/wordlists/rockyou.txt -M smbnt
 
 # MINIMODEM
 Ascii to WAV:
