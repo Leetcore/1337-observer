@@ -288,9 +288,12 @@ In Javascript:
 gobuster dir -u http://host/ -w /usr/share/wordlists/dirb/common.txt
 gobuster vhost -u http://host/ -w /usr/share/wordlists/dirb/big.txt | grep 200
 
-# WFUZZ
--hh = hide response answer size
+# WFUZZ (fuzzing)
+--hh = hide response answer with charsize
 wfuzz --hh 455 -w /usr/share/seclists/Discovery/Web-Content/big.txt 'http://host/?view=FUZZ'
+
+# DOTDOTPWN (dotdotpwn, php, fuzzing)
+dotdotpwn -m http-url -u 'http://subdomain.domain.htb/index.php?page=TRAVERSAL' -k root
 
 # NIKTO
 nikto -host http://host/
@@ -354,8 +357,11 @@ showmount -e 10.129.57.246
 mkdir nfsmount
 mount -t nfs 10.129.57.246:/ ./nfsmount/ -o nolock
 
-# dig (dns, ns, nameserver, zone transfer)
+# dig (enum, dns, ns, nameserver, zone transfer)
 dig axfr internal.inlanefreight.htb @10.129.216.3
+
+# DNS RECON (enum, recon, brute force, dns)
+dnsrecon -D /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt -d domain.htb -t brt
 
 # METASPLOIT (metasploit, msfconsole)
 Basic msfconsole:
