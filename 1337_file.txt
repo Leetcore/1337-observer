@@ -12,7 +12,7 @@ If you read with `less` type `-i` (ignore case) before searching.
 
 Type `/nc` to search.
 
- 🔥 HOT HOT HOT
+🔥 HOT HOT HOT
 In this file: log4shell (java), printnightmare (windows), pwnkit (linux).
 
 # IP setup
@@ -32,6 +32,16 @@ echo -n "base64" | base64 -d
 
 string to hex
 echo -n "hex" | xxd -r -p
+
+# HASHES (hash, md5, sha256)
+Example Hash Inputs:
+5f4dcc3b5aa765d61d8327deb882cf99                                    MD5
+5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8                            SHA1
+5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8	SHA256
+$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy	    BCRYPT
+$1$Pl3m5Y95$t3Nk4zEXTCXDP4Vs4cL0p0	                                MD5-Crypt
+If a hash has dollar signs “$” in it, this is usually a delimiter between the salt and the hash.
+Source: https://www.tunnelsup.com/hash-analyzer/
 
 # leak search (leak, grep)
 Search big leaks in a zipped way (bash):
