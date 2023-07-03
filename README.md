@@ -12,3 +12,10 @@ Erweiterungen und Änderungsvorschläge sind erwünscht!
 ``` bash
 wget https://raw.githubusercontent.com/Leetcore/1337-observer/main/1337_file.txt
 ```
+
+## Projekt Downloads
+Download.sh hält beliebte PoC-Scripte (Log4Shell, PrintNightmare, PwnKit) auf dem Laufenden.
+
+``` bash
+bash download.sh
+```
