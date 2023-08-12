@@ -158,6 +158,11 @@ echo -n "$hash$xyz" | cut -d "-" -f 1 > hash.txt
 
 john --wordlist=/usr/share/wordlists/rockyou.txt crack.hash
 
+# save root (ROOT)
+sudo chattr +i /root/flag.txt
+ps
+sudo kill -9 PID
+
 # Linux
 PwnKit (linux, policy kit, root)
 Source: https://github.com/ly4k/PwnKit
@@ -189,7 +194,6 @@ export PATH=/tmp:$PATH
 # find suid binaries
 find / -perm -4000 2>/dev/null
 bash -p
-
 
 From user to root (Privilege Escalation)
 find / -perm +6000 2>/dev/null
