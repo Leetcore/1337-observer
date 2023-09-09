@@ -331,6 +331,10 @@ ssh -L 3389:10.200.115.35:3389 -i id.key root@holo.live
 
 # SCP (scp, ssh, copy, file):
 scp /path/of/your/local/filename username@hostname:/path/to/remote/server/folder
+# upload (-l maxspeed)
+scp -l 1000000 file.zip root@127.0.0.1:/tmp
+# download (-l maxspeed)
+scp -l 1000000 root@127.0.0.1:/tmp .
 
 # REVERSE SHELLS
 Upgrade shell:
@@ -641,6 +645,10 @@ misc::skeleton
 # LOOTING (loot, chrome)
 https://github.com/djhohnstein/SharpChromium
 SharpChrome.exe logins /showall
+
+.git config (GIT, git, loot)
+git log -Susername .
+git log -Spassword .
 
 # RADARE2 (r2, radare)
 aaa (analyze)
