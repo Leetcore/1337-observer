@@ -23,6 +23,12 @@ ping $host
 openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//'
 sudo ifconfig en0 ether  <MAC address>
 
+# Editor setup
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add --if-not-exists --subset=verified flathub-verified https://flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub com.helix_editor.Helix
+echo "alias hx='flatpak run com.helix_editor.Helix'" >> ~/.profile
+
 # ENCODING (encoding, enc)
 string to base64
 echo -n "string" | base64
