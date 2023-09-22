@@ -410,6 +410,7 @@ gobuster vhost -u http://host/ -w /usr/share/wordlists/dirb/big.txt | grep 200
 # WFUZZ (fuzzing)
 --hh = hide response answer with charsize
 wfuzz --hh 455 -w /usr/share/seclists/Discovery/Web-Content/big.txt 'http://host/?view=FUZZ'
+ffuf -w /usr/share/seclists/Discovery/Web-Content/big.txt -u http://cozyhosting.htb/ -H "Host: FUZZ.cozyhosting.htb" -mc 200
 
 # FFUF (ffuf, fuzz, web)
 ffuf -w /usr/share/seclists/Discovery/Web-Content/big.txt -u http://10.10.8.208/FUZZ
