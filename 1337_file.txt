@@ -36,6 +36,23 @@ echo "alias hx='flatpak run com.helix_editor.Helix'" >> ~/.profile
 
 sudo snap install helix --classic
 
+# Editor language config
+apt install python3-pylsp
+
+cat ~/.config/helix/languages.toml
+[[language]]
+name = "python"
+
+[language-server.pylsp.config.pylsp.plugins]
+flake8 = {enabled = true}
+autopep8 = {enabled = true}
+mccabe = {enabled = true}
+pycodestyle = {enabled = true, ignore = ["E501"]}
+pyflakes = {enabled = true}
+pylint = {enabled = true}
+yapf = {enabled = true}
+ruff = { enabled = true}
+
 # ENCODING (encoding, enc)
 string to base64
 echo -n "string" | base64
