@@ -29,6 +29,7 @@ apt install proxychains4 nmap metasploit-framework sqlmap links neovim tor curl 
 tor &
 proxychains4 -q fish
 curl https://www.get-my-ip.info/api/ip
+set -U fish_user_paths /root/go/bin
 
 # Micro editor setup
 apt install micro git bash-completion
