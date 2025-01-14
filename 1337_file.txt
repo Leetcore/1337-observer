@@ -25,11 +25,10 @@ openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//'
 sudo ifconfig en0 ether  <MAC address>
 
 # Kali terminal setup (podman, docker)
-apt install proxychains4 nmap metasploit-framework sqlmap links neovim tor curl golang fish bash-completion
+apt install proxychains4 nmap metasploit-framework sqlmap links neovim tor curl golang fish
 tor &
 proxychains4 -q fish
 curl https://www.get-my-ip.info/api/ip
-set -U fish_user_paths /root/go/bin
 
 # Micro editor setup
 apt install micro git bash-completion
@@ -118,8 +117,8 @@ sort -u lines.txt
 awk '!a[$0]++' lines.txt
 
 # NETCAT (netcat, nc)
-Listening for shells (bash):
-nc -nvlp 1337
+# listening for shells (bash):
+nc -lvnp 1337
 
 pip3 install pwncat-cs
 python3 -m pwncat :1337
